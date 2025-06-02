@@ -1,0 +1,157 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Almarai", sans-serif;
+  background-color: #ffffff;
+  min-height: 100vh;
+  padding-top: 80px;
+}
+/* =================================Start the header========================== */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px;
+  background-color: #faf3e0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.logo {
+  font-size: 30px;
+  font-weight: bold;
+  color: #333;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.btn {
+  padding: 12px 25px;
+  border-radius: 25px;
+  font-size: 20px;
+  cursor: pointer;
+  font-weight: 600;
+  border: none;
+}
+
+.btn-green {
+  background-color: #5e8c6a;
+  color: white;
+}
+
+.btn-outline {
+  background-color: white;
+  color: #5e8c6a;
+  border: 1px solid #5e8c6a;
+}
+.btn-outline:hover {
+  background-color: #4a6f55;
+  color: white;
+}
+
+/* =================================End of  the header========================== */
+
+/* =================start the hero section=======================  */
+.Hero-content {
+  display: flex;
+  align-items: center;
+  padding: 40px 40px;
+  width: 100%;
+  margin: 0 auto;
+  gap: 50px;
+  background-color: #faf3e0;
+}
+
+.image-section {
+  flex: 1;
+}
+
+.main-image {
+  width: 100%;
+  height: auto;
+  max-width: 500px;
+}
+
+.content-text {
+  flex: 1;
+  text-align: right;
+}
+
+.main-title {
+  font-size: 42px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 30px;
+  line-height: 1.2;
+}
+
+.highlight-green {
+  color: #5e8c6a;
+}
+
+.description {
+  font-size: 18px;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 40px;
+  text-align: right;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: flex-end;
+}
+
+.btn-large {
+  padding: 15px 30px;
+  font-size: 18px;
+  border-radius: 25px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-browse {
+  background-color: #5e8c6a;
+  color: white;
+  font-weight: 600;
+}
+
+.btn-question {
+  background-color: white;
+  color: #5e8c6a;
+  border: 2px solid #5e8c6a;
+  font-weight: 600;
+}
+.btn-question:hover {
+  background-color: #4a6f55;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .Hero-content {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .main-title {
+    font-size: 32px;
+  }
+
+  .action-buttons {
+    justify-content: center;
+  }
+}
+
+/* ===========End of Hero section ========== */
