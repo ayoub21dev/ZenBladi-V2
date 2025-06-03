@@ -42,15 +42,15 @@ include __DIR__ . '/../Includes/header.php';
                
             </div>
             <button type="submit" class="submit-btn">تسجيل</button>
-            <p class="login-link">
-                لديك حساب بالفعل؟ <a href="#">تسجيل الدخول</a>
+            <p class="login-link" id="login-link-client">
+                لديك حساب بالفعل؟ <a href="login.php">تسجيل الدخول</a>
             </p>
-            <p class="login-link">
-                هل أنت بائع؟ <a href="#">إفتح حساب</a>
+            <p class="login-link" id="signup-seller-link">
+                هل أنت بائع؟ <a href="SignUpSeller.php">إفتح حساب</a>
             </p>
         </form>
     </div>
 </div>
-
+<script src="assest/JS/navigation.js"></script>
 </body>
 </html>

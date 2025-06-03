@@ -65,11 +65,12 @@ include __DIR__ . '/../Includes/header.php';
                     </div>
                 </div>
                 <button type="submit" class="submit-btn">تسجيل</button>
-                <p class="login-link">
-                    لديك حساب بالفعل؟ <a href="#">تسجيل الدخول</a>
+                <p class="login-link" id="login-link-seller">
+                    لديك حساب بالفعل؟ <a href="login.php">تسجيل الدخول</a>
                 </p>
             </form>
         </div>
     </div>
+    <script src="assest/JS/navigation.js"></script>
 </body>
 </html>
