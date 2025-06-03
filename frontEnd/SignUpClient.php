@@ -51,6 +51,8 @@ include __DIR__ . '/../Includes/header.php';
         </form>
     </div>
 </div>
-<script src="assest/JS/navigation.js"></script>
+
+<script src="assest/JS/mainNavigation.js"></script> <!-- For header buttons -->
+
 </body>
 </html>

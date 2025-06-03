@@ -31,11 +31,12 @@ include __DIR__ . '/../Includes/header.php';
                 </div>
                 <button type="submit" class="submit-btn">تسجيل الدخول</button>
                 <p class="login-link">
-                    ليس لديك حساب؟ <a href="SignUpClient.php" id="signup-link" >سجل الآن</a>
+                    ليس لديك حساب؟ <a href="SignUpClient.php" id="signup-link">سجل الآن</a> <!-- This ID is handled by navigation.js if you kept that -->
                 </p>
             </form>
         </div>
     </div>
-    <script src="assest/JS/navigation.js"></script>
+    <script src="assest/JS/mainNavigation.js"></script> <!-- For header buttons -->
+   
 </body>
 </html>

@@ -5,21 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="assest/CSS/index.css">
     <link rel="stylesheet" href="assest/CSS/searchBar.css">
+    <link rel="stylesheet" href="../Includes/header.css"> <!-- Assuming header.css is for the included header -->
    
     <title>كنوز المغرب الطبيعية</title>
 </head>
 <body>
     
-    <!-- =========header======== -->
-    <header class="header">
-        <div class="nav-buttons">
-            <button class="btn btn-outline">تسجيل دخول</button>
-            <button class="btn btn-green">فتح حساب</button>
-        </div>
-        <div class="logo">زين بلادي</div>
-       
-    </header>
-<!-- =========header======== -->
+    <?php include __DIR__ . '/../Includes/header.php'; ?>
 
     <main >
  
@@ -54,5 +46,6 @@
 
 
     </main>
+    <script src="assest/JS/mainNavigation.js"></script> <!-- Or your combined navigation.js -->
 </body>
 </html>
