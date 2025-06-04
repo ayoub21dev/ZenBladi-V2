@@ -1,66 +1,84 @@
 <?php
-// Include database connection
+session_start();
 require_once '../BackEnd/db.php';
 
-$message = '';
-$messageType = '';
+// نتحققو إذا جاينا من redirect بحالة التسجيل الناجح
+$registrationSuccess = isset($_GET['registered']) && $_GET['registered'] == 1;
 
-// Initialize form fields to prevent undefined variable notices in the HTML form
-$firstName = isset($_POST['firstName']) ? trim($_POST['firstName']) : '';
-$lastName = isset($_POST['lastName']) ? trim($_POST['lastName']) : '';
-$email = isset($_POST['email']) ? trim($_POST['email']) : '';
-// Password is not pre-filled for security
+// نيجيبو الرسالة والـ type من SESSION إذا كانو وحطّهم فنقط محليين (لأخطاء الـ validation)
+$message     = isset($_SESSION['signup_error'])      ? $_SESSION['signup_error']      : '';
+$messageType = isset($_SESSION['signup_error_type']) ? $_SESSION['signup_error_type'] : '';
+// نيجيبو القيم القديمة للحقول من SESSION إذا كانت
+$oldInputs = isset($_SESSION['old_inputs']) ? $_SESSION['old_inputs'] : [
+    'firstName' => '',
+    'lastName'  => '',
+    'email'     => '',
+];
+// نحيدوهم من SESSION باش ما يبقاوش للمرة الجاية
+unset($_SESSION['signup_error'], $_SESSION['signup_error_type'], $_SESSION['old_inputs']);
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Re-assign from POST for processing
+// نعمروا المتغيّرات ديال الفورم بالقيم القديمة (إلا كان فيها)
+$firstName = $oldInputs['firstName'];
+$lastName  = $oldInputs['lastName'];
+$email     = $oldInputs['email'];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // إذا البرنامج جا من POST نديروا الـ validation والإدخال للقاعدة
     $firstName = trim($_POST['firstName']);
-    $lastName = trim($_POST['lastName']);
-    $email = trim($_POST['email']);
-    $password = $_POST['password'];
-    
-    // Validate input
+    $lastName  = trim($_POST['lastName']);
+    $email     = trim($_POST['email']);
+    $password  = $_POST['password'];
+
+    // validation ديال الحقول
     if (empty($firstName) || empty($lastName) || empty($email) || empty($password)) {
-        $message = 'جميع الحقول مطلوبة';
-        $messageType = 'error';
+        $_SESSION['signup_error']      = 'جميع الحقول مطلوبة';
+        $_SESSION['signup_error_type'] = 'error';
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $message = 'البريد الإلكتروني غير صحيح';
-        $messageType = 'error';
+        $_SESSION['signup_error']      = 'البريد الإلكتروني غير صحيح';
+        $_SESSION['signup_error_type'] = 'error';
     } elseif (strlen($password) < 6) {
-        $message = 'كلمة المرور يجب أن تكون 6 أحرف على الأقل';
-        $messageType = 'error';
+        $_SESSION['signup_error']      = 'كلمة المرور يجب أن تكون 6 أحرف على الأقل';
+        $_SESSION['signup_error_type'] = 'error';
     } else {
         try {
-            // Check if email already exists
+            // نتأكدوا من عدم وجود الإيميل من قبل
             $checkEmail = $pdo->prepare("SELECT id FROM customer WHERE email = ?");
             $checkEmail->execute([$email]);
-            
+
             if ($checkEmail->rowCount() > 0) {
-                $message = 'البريد الإلكتروني مستخدم بالفعل';
-                $messageType = 'error';
+                $_SESSION['signup_error']      = 'البريد الإلكتروني مستخدم بالفعل';
+                $_SESSION['signup_error_type'] = 'error';
             } else {
-                // Hash password
+                // نهشّو كلمة المرور
                 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-                
-                // Insert new customer
                 $stmt = $pdo->prepare("INSERT INTO customer (first_name, last_name, email, password) VALUES (?, ?, ?, ?)");
-                
-                // IMPORTANT: Pass the actual values to execute()
+
                 if ($stmt->execute([$firstName, $lastName, $email, $hashedPassword])) {
-                    // Registration successful: Redirect to login page immediately
-                    header('Location: login.php');
-                    exit; // Terminate script after redirect
+                    // إذا نجح التسجيل، Redirect لذات الصفحة مع علامة ?registered=1
+                    header('Location: SignUpClient.php?registered=1');
+                    exit;
                 } else {
-                    // Registration failed (stmt->execute() returned false, but no PDOException)
-                    $message = 'حدث خطأ أثناء إنشاء الحساب. فشل التنفيذ.';
-                    $messageType = 'error';
+                    $_SESSION['signup_error']      = 'حدث خطأ أثناء إنشاء الحساب. فشل التنفيذ.';
+                    $_SESSION['signup_error_type'] = 'error';
                 }
             }
         } catch (PDOException $e) {
-            // Log error for developer: error_log('PDOException in SignUpClient: ' . $e->getMessage());
-            $message = 'حدث خطأ أثناء إنشاء الحساب. مشكلة في قاعدة البيانات.';
-            $messageType = 'error';
+            // يمكن تسجيل الأخطاء فـ logfile لو بغينا
+            $_SESSION['signup_error']      = 'حدث خطأ أثناء إنشاء الحساب. مشكلة في قاعدة البيانات.';
+            $_SESSION['signup_error_type'] = 'error';
         }
     }
+
+    // نخزّنو القيم القديمة من الحقول فالـ session باش نردّوها للفورم (إلا كان خطأ)
+    $_SESSION['old_inputs'] = [
+        'firstName' => $firstName,
+        'lastName'  => $lastName,
+        'email'     => $email,
+    ];
+
+    // Redirect لنفس الصفحة (GET) باش نعرضو الأخطاء
+    header('Location: SignUpClient.php');
+    exit;
 }
 ?>
 
@@ -79,6 +97,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             margin: 10px 0;
             border-radius: 5px;
             text-align: center;
+            opacity: 1;
+            transition: opacity 0.5s;
         }
         .message.success {
             background-color: #d4edda;
@@ -94,39 +114,70 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body>
 
-<?php
-// Include the header
-include __DIR__ . '/../Includes/header.php';
-?>
+<?php include __DIR__ . '/../Includes/header.php'; ?>
 
 <div class="form-container">
     <div class="form-header">
         <h1>فتح حساب جديد</h1>
     </div>
     <div class="form-content">
-        <?php if ($message): ?>
+        <?php if ($registrationSuccess): ?>
+            <!-- رسالة النجاح قبل التحويل للـ login.php -->
+            <div class="message success" id="success-message">
+                تم التسجيل بنجاح! سوف يتم تحويلك إلى صفحة تسجيل الدخول خلال ثوانٍ قليلة...
+            </div>
+        <?php elseif ($message): ?>
+            <!-- رسالة الخطأ -->
             <div class="message <?php echo $messageType; ?>">
-                <?php echo $message; ?>
+                <?php echo htmlspecialchars($message); ?>
             </div>
         <?php endif; ?>
-        
-        <form action="" method="post">
+
+        <?php if (!$registrationSuccess): ?>
+        <form action="" method="post" id="signup-form">
             <div class="form-grid">
                 <div class="form-group">
-                    <label for="firstName">اسم الأول</label>
-                    <input type="text" id="firstName" name="firstName" placeholder="ادخل اسمك الأول" value="<?php echo isset($firstName) ? htmlspecialchars($firstName) : ''; ?>" required>
+                    <label for="firstName">الاسم الأول</label>
+                    <input
+                        type="text"
+                        id="firstName"
+                        name="firstName"
+                        placeholder="أدخل اسمك الأول"
+                        value="<?php echo htmlspecialchars($firstName); ?>"
+                        required
+                    >
                 </div>
                 <div class="form-group">
-                    <label for="lastName">اسم الأخير</label>
-                    <input type="text" id="lastName" name="lastName" placeholder="ادخل اسمك الأخير" value="<?php echo isset($lastName) ? htmlspecialchars($lastName) : ''; ?>" required>
+                    <label for="lastName">الاسم الأخير</label>
+                    <input
+                        type="text"
+                        id="lastName"
+                        name="lastName"
+                        placeholder="أدخل اسمك الأخير"
+                        value="<?php echo htmlspecialchars($lastName); ?>"
+                        required
+                    >
                 </div>
                 <div class="form-group">
                     <label for="email">البريد الإلكتروني</label>
-                    <input type="email" id="email" name="email" placeholder="ادخل بريدك الإلكتروني" value="<?php echo isset($email) ? htmlspecialchars($email) : ''; ?>" required>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="أدخل بريدك الإلكتروني"
+                        value="<?php echo htmlspecialchars($email); ?>"
+                        required
+                    >
                 </div>
                 <div class="form-group">
                     <label for="password">كلمة المرور</label>
-                    <input type="password" id="password" name="password" placeholder="ادخل كلمة المرور" required>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="أدخل كلمة المرور"
+                        required
+                    >
                 </div>
             </div>
             <button type="submit" class="submit-btn">تسجيل</button>
@@ -134,11 +185,34 @@ include __DIR__ . '/../Includes/header.php';
                 لديك حساب بالفعل؟ <a href="login.php">تسجيل الدخول</a>
             </p>
             <p class="login-link" id="signup-seller-link">
-                هل أنت بائع؟ <a href="SignUpSeller.php">إفتح حساب</a>
+                هل أنت بائع؟ <a href="SignUpSeller.php">افتح حساب</a>
             </p>
         </form>
+        <?php endif; ?>
     </div>
 </div>
+
+<script>
+    // إذا كانت هناك رسالة خطأ، نخليها تختفي بعد 5 ثواني
+    document.addEventListener('DOMContentLoaded', function() {
+        const errMsg = document.querySelector('.message.error');
+        if (errMsg) {
+            setTimeout(() => {
+                errMsg.style.opacity = '0';
+                setTimeout(() => errMsg.remove(), 500);
+            }, 5000);
+        }
+    });
+
+    // إذا كانت حالة التسجيل ناجحة، نوجّهو المستخدم بعد 5 ثواني للـ login.php
+    <?php if ($registrationSuccess): ?>
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(() => {
+            window.location.href = 'login.php';
+        }, 5000);
+    });
+    <?php endif; ?>
+</script>
 
 </body>
 </html>
