@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" >
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -213,6 +213,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     });
     <?php endif; ?>
 </script>
+<script src="assest/JS/mainNavigation.js"></script> <!-- Or your combined navigation.js -->
 
 </body>
 </html>

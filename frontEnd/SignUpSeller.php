@@ -44,13 +44,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // validation ديال الحقول
     if (empty($firstName) || empty($lastName) || empty($email) || empty($password) || 
         empty($phoneNumber) || empty($address) || empty($city)) {
-        $_SESSION['signup_error']      = 'جميع الحقول مطلوبة عدا اسم التعاونية';
+        $_SESSION['signup_error']      = 'جميع الحقول مطلوبة عدا اسم التعاونية (اختياري)';
         $_SESSION['signup_error_type'] = 'error';
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $_SESSION['signup_error']      = 'البريد الإلكتروني غير صحيح';
         $_SESSION['signup_error_type'] = 'error';
     } elseif (strlen($password) < 6) {
         $_SESSION['signup_error']      = 'كلمة المرور يجب أن تكون 6 أحرف على الأقل';
+        $_SESSION['signup_error_type'] = 'error';
+    } elseif (!ctype_digit($phoneNumber)) { // New validation for phone number
+        $_SESSION['signup_error']      = 'رقم الهاتف يجب أن يحتوي على أرقام فقط';
         $_SESSION['signup_error_type'] = 'error';
     } else {
         try {
@@ -104,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" >
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -277,6 +280,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     });
     <?php endif; ?>
 </script>
+<script src="assest/JS/mainNavigation.js"></script> <!-- Or your combined navigation.js -->
 
 </body>
 </html>
