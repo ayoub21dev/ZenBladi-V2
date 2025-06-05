@@ -11,9 +11,16 @@ FROM product p
 JOIN category c ON p.category_id = c.id 
 WHERE p.is_approved = 1 
 LIMIT 6";
-$stmt = $pdo->prepare($sql);
-$stmt->execute();
-$products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Add error handling for the query
+try {
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+    $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    error_log('Database error: ' . $e->getMessage());
+    $products = [];
+}
 ?>
 
 <!DOCTYPE html>
@@ -29,6 +36,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
         .products-section {
             padding: 80px 20px;
             background-color: #f9f9f9;
+            min-height: 400px; /* Add minimum height */
         }
         
         .section-title {
@@ -41,10 +49,11 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Increased minimum width */
             gap: 30px;
             max-width: 1200px;
             margin: 0 auto;
+            padding: 20px; /* Added padding */
         }
         
         .product-card {
@@ -52,9 +61,14 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
             border-radius: 20px;
             padding: 20px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.2s ease; /* Reduced transition time */
             text-align: center;
-     
+            display: flex;
+            flex-direction: column;
+            height: 100%; /* Fixed height */
+            min-height: 450px; /* Minimum height */
+            position: relative; /* Added for stability */
+            overflow: hidden; /* Prevent content overflow */
         }
         
         .product-card:hover {
@@ -64,39 +78,47 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
         .product-image {
             width: 100%;
-            height: 200px;
+            height: 250px; /* Fixed height */
             object-fit: cover;
             border-radius: 15px;
             margin-bottom: 15px;
+            background-color: #f5f5f5; /* Fallback background */
         }
         
         .product-name {
             font-size: 1.3rem;
             font-weight: bold;
             color: #2c5530;
-            margin-bottom: 10px;
+            margin: 10px 0;
+            height: 40px; /* Fixed height */
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
         }
         
         .product-description {
             font-size: 0.9rem;
             color: #666;
-            margin-bottom: 15px;
-            line-height: 1.4;
-            height: 60px;
+            margin: 10px 0;
+            height: 60px; /* Fixed height */
             overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
         }
         
         .product-price {
             font-size: 1.4rem;
             font-weight: bold;
             color: #e74c3c;
-            margin-bottom: 15px;
+            margin: 10px 0;
         }
         
         .product-category {
             font-size: 0.8rem;
             color: #888;
-            margin-bottom: 15px;
+            margin: 10px 0;
             background: #f0f0f0;
             padding: 5px 10px;
             border-radius: 15px;
@@ -114,6 +136,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
             font-weight: bold;
             transition: all 0.3s ease;
             width: 100%;
+            margin-top: auto; /* Push button to bottom */
         }
         
         .order-btn:hover {
@@ -183,10 +206,10 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <?php else: ?>
                     <?php foreach ($products as $product): ?>
                         <div class="product-card">
-                            <img src="<?= htmlspecialchars($product['image']) ?>" 
+                            <img src="<?= htmlspecialchars(str_starts_with($product['image'], 'http') ? $product['image'] : 'assest/img_Products/' . $product['image']) ?>" 
                                  alt="<?= htmlspecialchars($product['name']) ?>" 
                                  class="product-image"
-                                 onerror="this.src='assest/images/default-product.jpg'">
+                                 onerror="this.src='assest/images/default-product.jpg'; this.onerror=null;">
                             
                             <h3 class="product-name"><?= htmlspecialchars($product['name']) ?></h3>
                             
