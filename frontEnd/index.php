@@ -206,10 +206,42 @@ try {
                 <?php else: ?>
                     <?php foreach ($products as $product): ?>
                         <div class="product-card">
-                            <img src="<?= htmlspecialchars(str_starts_with($product['image'], 'http') ? $product['image'] : 'assest/img_Products/' . $product['image']) ?>" 
+                            <?php 
+                                $imagePath = $product['image'];
+                                // If the path starts with 'frontEnd/', make it relative from the web root 
+                                // by ensuring it starts with a / if your site is in a subdirectory.
+                                // Or, if your site root is ZenBladi-V2, then the path from DB should work.
+                                // Let's assume the path from DB is correct as a web path from the ZenBladi-V2 root.
+                                // We might need to add a leading slash if it's not there and it's meant to be from site root.
+                                // For now, let's try using it directly but ensure it's properly escaped.
+
+                                // A common setup is http://localhost/ZenBladi-V2/
+                                // So, an image at frontEnd/assest/img_Products/Balgha.jpeg
+                                // would be http://localhost/ZenBladi-V2/frontEnd/assest/img_Products/Balgha.jpeg
+                                // The src attribute should be /ZenBladi-V2/frontEnd/assest/img_Products/Balgha.jpeg
+                                // Or simply frontEnd/assest/img_Products/Balgha.jpeg if the page is also in ZenBladi-V2 root.
+                                // Since index.php is in frontEnd, and image path is frontEnd/..., 
+                                // the relative path from index.php to the image is actually ../frontEnd/...
+                                // This is getting complicated. Let's simplify.
+
+                                // The most straightforward way if paths are stored as 'frontEnd/assest/...' is to use them as is,
+                                // assuming your web server root for the site is ZenBladi-V2.
+                                // The browser will request http://yourdomain/frontEnd/assest/img_Products/Balgha.jpeg
+
+                                $imageUrl = htmlspecialchars($product['image']);
+                                if (!str_starts_with($imageUrl, 'http') && !str_starts_with($imageUrl, '/')) {
+                                    // Prepend the base path of your application if it's in a subdirectory
+                                    // Example: /ZenBladi-V2/
+                                    // If your app is at the root of the domain, you might not need this.
+                                    // For XAMPP, if ZenBladi-V2 is a folder in htdocs, you need /ZenBladi-V2/
+                                    $baseAppPath = '/ZenBladi-V2/'; // Adjust if your setup is different
+                                    $imageUrl = $baseAppPath . ltrim($product['image'], '/');
+                                }
+                            ?>
+                            <img src="<?= $imageUrl ?>" 
                                  alt="<?= htmlspecialchars($product['name']) ?>" 
                                  class="product-image"
-                                 onerror="this.src='assest/images/default-product.jpg'; this.onerror=null;">
+                                 onerror="this.src='<?= $baseAppPath ?? '' ?>frontEnd/assest/images/default-product.jpg'; this.onerror=null;">
                             
                             <h3 class="product-name"><?= htmlspecialchars($product['name']) ?></h3>
                             
