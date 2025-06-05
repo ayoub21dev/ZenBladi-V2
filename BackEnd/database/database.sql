@@ -62,7 +62,7 @@ CREATE TABLE product (
 ) ENGINE=InnoDB;
 
 -- Orders Table
-CREATE TABLE order (                 
+CREATE TABLE customer_order (                 
     id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     customer_id INT UNSIGNED NOT NULL,   
     order_date DATE NOT NULL,            
@@ -83,6 +83,6 @@ CREATE TABLE order_link (
     product_id INT UNSIGNED NOT NULL,    
     quantity INT NOT NULL,             
     total DECIMAL(8, 2) NOT NULL,
-    FOREIGN KEY (order_id) REFERENCES order (id),
+    FOREIGN KEY (order_id) REFERENCES customer_order(id),
     FOREIGN KEY (product_id) REFERENCES product(id)
 ) ENGINE=InnoDB;
