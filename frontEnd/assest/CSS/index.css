@@ -155,3 +155,107 @@ body {
 }
 
 /* ===========End of Hero section ========== */
+/* ==================================why ZenBladi======================== */
+
+.whyZenbladi{
+  width: 100%;
+  background-color: #f8f9fa;
+  padding: 40px 20px;
+  direction: rtl;
+}
+
+
+.containerzenbladi {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.main-titleZenbladi {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #2c3e50;
+  margin-bottom: 50px;
+  font-weight: bold;
+}
+
+.cards-containerZenbladi {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.cardZenbladi {
+  background: white;
+  border-radius: 15px;
+  padding: 40px 30px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  flex: 1;
+  min-width: 280px;
+  max-width: 320px;
+  border: 1px solid #e9ecef;
+}
+
+.cardZenbladi:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.icon-containerZenbladi {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin: 0 auto 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+}
+
+.cardZenbladi:nth-child(1) .icon-containerZenbladi {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.cardZenbladi:nth-child(2) .icon-containerZenbladi {
+  background-color: #e2f3e4;
+  color: #28a745;
+}
+
+.cardZenbladi:nth-child(3) .icon-containerZenbladi {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.card-titleZenbladi {
+  font-size: 1.4rem;
+  color: #2c3e50;
+  margin-bottom: 15px;
+  font-weight: bold;
+  line-height: 1.4;
+}
+
+.card-descriptionZenbladi {
+  color: #6c757d;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 768px) {
+  .main-titleZenbladi {
+      font-size: 2rem;
+      margin-bottom: 30px;
+  }
+
+  .cards-containerZenbladi {
+      flex-direction: column;
+      align-items: center;
+  }
+
+  .cardZenbladi {
+      max-width: 100%;
+      margin-bottom: 20px;
+  }
+}

@@ -197,7 +197,6 @@ try {
         <!-- =========show 6 products=========  -->
         <section class="products-section">
             <h2 class="section-title">منتجاتنا المميزة</h2>
-            
             <div class="products-grid">
                 <?php if (empty($products)): ?>
                     <div class="no-products">
@@ -208,32 +207,10 @@ try {
                         <div class="product-card">
                             <?php 
                                 $imagePath = $product['image'];
-                                // If the path starts with 'frontEnd/', make it relative from the web root 
-                                // by ensuring it starts with a / if your site is in a subdirectory.
-                                // Or, if your site root is ZenBladi-V2, then the path from DB should work.
-                                // Let's assume the path from DB is correct as a web path from the ZenBladi-V2 root.
-                                // We might need to add a leading slash if it's not there and it's meant to be from site root.
-                                // For now, let's try using it directly but ensure it's properly escaped.
-
-                                // A common setup is http://localhost/ZenBladi-V2/
-                                // So, an image at frontEnd/assest/img_Products/Balgha.jpeg
-                                // would be http://localhost/ZenBladi-V2/frontEnd/assest/img_Products/Balgha.jpeg
-                                // The src attribute should be /ZenBladi-V2/frontEnd/assest/img_Products/Balgha.jpeg
-                                // Or simply frontEnd/assest/img_Products/Balgha.jpeg if the page is also in ZenBladi-V2 root.
-                                // Since index.php is in frontEnd, and image path is frontEnd/..., 
-                                // the relative path from index.php to the image is actually ../frontEnd/...
-                                // This is getting complicated. Let's simplify.
-
-                                // The most straightforward way if paths are stored as 'frontEnd/assest/...' is to use them as is,
-                                // assuming your web server root for the site is ZenBladi-V2.
-                                // The browser will request http://yourdomain/frontEnd/assest/img_Products/Balgha.jpeg
-
+                             
                                 $imageUrl = htmlspecialchars($product['image']);
                                 if (!str_starts_with($imageUrl, 'http') && !str_starts_with($imageUrl, '/')) {
-                                    // Prepend the base path of your application if it's in a subdirectory
-                                    // Example: /ZenBladi-V2/
-                                    // If your app is at the root of the domain, you might not need this.
-                                    // For XAMPP, if ZenBladi-V2 is a folder in htdocs, you need /ZenBladi-V2/
+                                    
                                     $baseAppPath = '/ZenBladi-V2/'; // Adjust if your setup is different
                                     $imageUrl = $baseAppPath . ltrim($product['image'], '/');
                                 }
@@ -258,6 +235,23 @@ try {
                     <?php endforeach; ?>
                 <?php endif; ?>
             </div>
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="alll_Product.php" class="view-all-btn" style="
+                    background: linear-gradient(135deg, #2c5530, #4a7c4a);
+                    color: white;
+                    border: none;
+                    padding: 15px 30px;
+                    border-radius: 25px;
+                    cursor: pointer;
+                    font-size: 1.1rem;
+                    font-weight: bold;
+                    text-decoration: none;
+                    display: inline-block;
+                    transition: all 0.3s ease;
+                ">
+                    عرض جميع المنتوجات...
+                </a>
+            </div>
         </section>
         <!-- =========show 6 products=========  -->
 
@@ -271,6 +265,47 @@ try {
             // مثال: window.location.href = 'order.php?product_id=' + productId;
         }
     </script>
+<!-- =====================================================why ZenBladi?============================= -->
+ <section class="whyZenbladi">
+<div class="containerzenbladi">
+        <h1 class="main-titleZenbladi">لماذا زين بلدي؟</h1>
+        
+        <div class="cards-containerZenbladi">
+            <div class="cardZenbladi">
+                <div class="icon-containerZenbladi">
+                    🚚
+                </div>
+                <h3 class="card-titleZenbladi">توصيل آمن وسريع</h3>
+                <p class="card-descriptionZenbladi">
+                    نضمن وصول منتجاتك بحالة ممتازة من خلال شبكة توصيل متوفرة في جميع أنحاء المغرب
+                </p>
+            </div>
+
+            <div class="cardZenbladi">
+                <div class="icon-containerZenbladi">
+                    💰
+                </div>
+                <h3 class="card-titleZenbladi">دعم الحرفيين المحليين</h3>
+                <p class="card-descriptionZenbladi">
+                    نساعد الحرفيين والمنتجين المحليين على الوصول إلى عملاء جدد وتوسيع أعمالهم
+                </p>
+            </div>
+
+            <div class="cardZenbladi">
+                <div class="icon-containerZenbladi">
+                    🌿
+                </div>
+                <h3 class="card-titleZenbladi">منتجات طبيعية 100%</h3>
+                <p class="card-descriptionZenbladi">
+                    نقدم فقط منتجات مغربية طبيعية وتقليدية عالية الجودة من مصادر موثوقة
+                </p>
+            </div>
+        </div>
+    </div>
+    </section>
+
+
+    <script src="assest/JS/mainNavigation.js"></script>
 </body>
 </html>
 
