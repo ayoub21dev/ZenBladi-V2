@@ -145,7 +145,7 @@ body {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   flex: 1;
   min-width: 280px;
-  max-width: 320px;
+  /* max-width: 320px; */ /* Remove or comment out this line */
   border: 1px solid #e9ecef;
 }
 
