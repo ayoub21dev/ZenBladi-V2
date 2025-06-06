@@ -1,6 +1,6 @@
 <!-- header.php -->
 <header class="header" dir="rtl">
-  <div class="logo">زين بلادي</div>
+ <a href="../frontEnd/index.php"><div class="logo">زين بلادي</div></a> 
 
   <div class="nav-buttons">
     <button class="btn btn-outline" id="header-login-btn">تسجيل دخول</button>

@@ -60,3 +60,7 @@ body {
     background-color: #4a6f55;
     color: white;
 }
+.header a {
+    text-decoration: none;
+  }
+  
