@@ -81,7 +81,7 @@ try {
     <title>لوحة تحكم البائع - زين بلدي</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="../assest/CSS/Seller/Seller.css">
-    <link rel="stylesheet" href="../../Includes/Header.css">
+   
   
 </head>
 <body>
