@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         // Handle image upload
         $upload_dir = '../assest/img_Products/';
-        $allowed_types = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+        $allowed_types = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp', 'image/avif'];
         $max_size = 5 * 1024 * 1024; // 5MB
         
         $file_info = $_FILES['image'];
@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $file_ext = strtolower(pathinfo($file_info['name'], PATHINFO_EXTENSION));
         
         if (!in_array($file_type, $allowed_types)) {
-            $message = 'نوع الملف غير مدعوم. يرجى اختيار صورة (JPG, PNG, GIF)';
+            $message = 'نوع الملف غير مدعوم. يرجى اختيار صورة (JPG, PNG, GIF, WEBP, AVIF)';
             $messageType = 'error';
         } elseif ($file_size > $max_size) {
             $message = 'حجم الملف كبير جداً. الحد الأقصى 5 ميجابايت';
@@ -391,7 +391,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <div class="file-input-text">
                                         <strong>اضغط لاختيار صورة</strong><br>
                                         أو اسحب الصورة هنا<br>
-                                        <small>JPG, PNG, GIF - حد أقصى 5MB</small>
+                                        <small>JPG, PNG, GIF, WEBP, AVIF - حد أقصى 5MB</small>
                                     </div>
                                 </div>
                             </label>

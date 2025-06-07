@@ -166,9 +166,21 @@ try {
                 <?php else: ?>
                     <?php foreach ($products as $product): ?>
                         <?php
-                        // Construct the correct image path
-                        $imagePath = $baseAppPath . $product['image'];
-                        // Define a fallback image path, also using baseAppPath for consistency if needed
+                        $imagePathFromDb = $product['image'];
+                        $correctRelativePath = $imagePathFromDb;
+
+                        // If the path starts with '../', it's relative to the 'frontEnd/Seller/' directory.
+                        // We convert it to be relative to the project root.
+                        // e.g., '../assest/img_Products/image.jpg' becomes 'frontEnd/assest/img_Products/image.jpg'
+                        if (strpos($imagePathFromDb, '../') === 0) {
+                            $correctRelativePath = 'frontEnd/' . substr($imagePathFromDb, 3);
+                        }
+
+                        // We then construct the full, absolute path to the image.
+                        // $baseAppPath is '/ZenBladi-V2/'
+                        $imagePath = $baseAppPath . $correctRelativePath;
+                        
+                        // The fallback path also needs to be absolute.
                         $fallbackImagePath = $baseAppPath . 'frontEnd/assest/images/placeholder.jpg';
                         ?>
                         <div class="product-card">
