@@ -10,6 +10,15 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'seller') {
 
 $seller_id = $_SESSION['user_id'];
 
+// Fetch seller name
+$seller_name = '';
+$name_query = "SELECT first_name, last_name FROM seller WHERE id = ?";
+$name_stmt = $pdo->prepare($name_query);
+$name_stmt->execute([$seller_id]);
+if ($row = $name_stmt->fetch()) {
+    $seller_name = $row['first_name'] . ' ' . $row['last_name'];
+}
+
 // Fetch seller statistics
 try {
     // Total Sales
@@ -71,10 +80,14 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>لوحة تحكم البائع - زين بلدي</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="../assest/CSS/Seller.css">
+    <link rel="stylesheet" href="../assest/CSS/Seller/Seller.css">
+    <link rel="stylesheet" href="../../Includes/Header.css">
   
 </head>
 <body>
+
+
+
     <div class="dashboard-container">
         <!-- Sidebar -->
         <div class="sidebar">
@@ -96,7 +109,7 @@ try {
         <div class="main-content">
             <!-- Dashboard Header -->
             <div class="dashboard-header">
-                <h1>مرحباً بك في لوحة التحكم</h1>
+                <h1>مرحباً بك، <?= htmlspecialchars($seller_name) ?>!</h1>
                 <p>إدارة متجرك ومنتجاتك بسهولة</p>
             </div>
 

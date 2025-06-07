@@ -1,0 +1,94 @@
+
+body {
+    background: linear-gradient(135deg, #f3f7f0 0%, #e9f5ec 100%);
+    font-family: 'Almarai', sans-serif;
+}
+.profile-container {
+    max-width: 480px;
+    margin: 50px auto 40px auto;
+    background: #fff;
+    padding: 38px 32px 32px 32px;
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(46, 125, 80, 0.10), 0 1.5px 6px rgba(46, 125, 80, 0.07);
+    position: relative;
+}
+.profile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+}
+.profile-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #5E8C6A 60%, #A7C7A3 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.7rem;
+    color: #fff;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 8px rgba(46, 125, 80, 0.10);
+}
+.profile-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2c5530;
+    margin-bottom: 2px;
+}
+.profile-header span {
+    color: #5E8C6A;
+    font-size: 1.1rem;
+}
+.msg {
+    text-align: center;
+    margin-bottom: 18px;
+    color: #388e3c;
+    font-weight: bold;
+    background: #e8f5e9;
+    border-radius: 8px;
+    padding: 10px 0;
+}
+.profile-form label {
+    display: block;
+    margin-bottom: 7px;
+    font-weight: 700;
+    color: #2c5530;
+}
+.profile-form input {
+    width: 100%;
+    padding: 11px 12px;
+    margin-bottom: 20px;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    background: #f9f9f9;
+    transition: border 0.2s;
+}
+.profile-form input:focus {
+    border: 1.5px solid #5E8C6A;
+    outline: none;
+    background: #fff;
+}
+.profile-form button {
+    width: 100%;
+    padding: 13px;
+    background: linear-gradient(135deg, #5E8C6A 60%, #4a7c4a 100%);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.15rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(46, 125, 80, 0.10);
+    transition: background 0.2s;
+}
+.profile-form button:hover {
+    background: linear-gradient(135deg, #4a7c4a 80%, #5E8C6A 100%);
+}
+@media (max-width: 600px) {
+    .profile-container {
+        padding: 18px 6vw 22px 6vw;
+    }
+}
