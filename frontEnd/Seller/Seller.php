@@ -1,4 +1,6 @@
+
 <?php require_once 'seller_logic.php'; ?>
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>

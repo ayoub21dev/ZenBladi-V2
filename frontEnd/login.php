@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user = $stmt->fetch();
 
         if ($user && password_verify($password, $user['password'])) {
-            $_SESSION['seller_id'] = $user['id'];  // Changed from user_id to seller_id
+            $_SESSION['user_id'] = $user['id'];  // Changed from user_id to seller_id
             $_SESSION['user_type'] = 'seller';
             header('Location: Seller/Seller.php');
             exit;
