@@ -494,7 +494,7 @@ try {
                                     <td><?= htmlspecialchars($user['email']) ?></td>
                                     <td><?= date('Y-m-d', strtotime($user['created_at'])) ?></td>
                                     <td><?= number_format($user['total_orders']) ?></td>
-                                    <td><?= number_format($user['total_spent'], 2) ?> ر.س</td>
+                                    <td><?= number_format($user['total_spent'], 2) ?>DH</td>
                                     <td>
                                         <div class="actions">
                                             <form method="POST" style="display: inline;" onsubmit="return confirm('هل أنت متأكد من إعادة تعيين كلمة المرور؟')">
