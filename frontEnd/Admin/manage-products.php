@@ -154,38 +154,76 @@ if (isset($_SESSION['user_id'])) {
         .products-table tr:hover {
             background-color: #f1f1f1;
         }
+        .product-image-cell {
+            width: 80px;
+            text-align: center;
+        }
         .product-image-thumbnail {
             width: 60px;
             height: 60px;
             object-fit: cover;
-            border-radius: 4px;
-            border: 1px solid #ddd;
+            border-radius: 8px;
+            border: 1.5px solid #bdbdbd;
+            background: #f3f3f3;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+            display: block;
+            margin: 0 auto;
         }
-        .action-buttons form {
-            display: inline-block;
-            margin-left: 5px;
+        .product-image-placeholder {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            background: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #aaa;
+            font-size: 28px;
+            border: 1.5px solid #bdbdbd;
+            margin: 0 auto;
         }
-        .action-buttons .btn {
-            padding: 6px 12px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-size: 0.9rem;
-            cursor: pointer;
-            border: none;
-            color: white;
-            transition: background-color 0.2s ease;
+        @media (max-width: 900px) {
+            .products-table th, .products-table td {
+                padding: 8px 6px;
+                font-size: 13px;
+            }
+            .main-content {
+                margin-right: 0;
+                padding: 10px;
+            }
         }
-        .btn-approve {
-            background-color: #28a745; 
-        }
-        .btn-approve:hover {
-            background-color: #218838;
-        }
-        .btn-reject {
-            background-color: #dc3545; 
-        }
-        .btn-reject:hover {
-            background-color: #c82333;
+        @media (max-width: 600px) {
+            .products-table, .products-table thead, .products-table tbody, .products-table th, .products-table td, .products-table tr {
+                display: block;
+            }
+            .products-table tr {
+                margin-bottom: 15px;
+                background: #fff;
+                border-radius: 8px;
+                box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+            }
+            .products-table td {
+                border: none;
+                position: relative;
+                padding-right: 50%;
+                min-height: 40px;
+            }
+            .products-table td:before {
+                position: absolute;
+                right: 10px;
+                top: 12px;
+                white-space: nowrap;
+                font-weight: bold;
+                color: #888;
+            }
+            .products-table td:nth-child(1):before { content: 'الصورة'; }
+            .products-table td:nth-child(2):before { content: 'اسم المنتج'; }
+            .products-table td:nth-child(3):before { content: 'المتجر'; }
+            .products-table td:nth-child(4):before { content: 'السعر'; }
+            .products-table td:nth-child(5):before { content: 'الفئة'; }
+            .products-table td:nth-child(6):before { content: 'تاريخ الإضافة'; }
+            .products-table td:nth-child(7):before { content: 'الحالة'; }
+            .products-table td:nth-child(8):before { content: 'الإجراءات'; }
         }
         .no-products {
             text-align: center;
@@ -218,18 +256,26 @@ if (isset($_SESSION['user_id'])) {
             color: white;
         }
         .status-badge {
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 0.85rem;
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 0.95rem;
             font-weight: bold;
+            display: inline-block;
+            min-width: 80px;
+            text-align: center;
+            line-height: 1.7;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+            margin: 0 auto;
         }
         .status-approved {
             background-color: #d4edda;
             color: #155724;
+            border: 1px solid #b7dfc7;
         }
         .status-pending {
             background-color: #fff3cd;
             color: #856404;
+            border: 1px solid #ffe8a1;
         }
     </style>
 </head>
@@ -290,20 +336,20 @@ if (isset($_SESSION['user_id'])) {
                     <tbody>
                         <?php foreach ($products_list as $product): ?>
                             <tr>
-                                <td>
+                                <td class="product-image-cell">
                                     <?php 
                                     $image_path = $product['image'];
-                                    // The path stored by add-product.php is '../assest/img_Products/filename.jpg'
-                                    // This is relative to the frontEnd/Seller/ directory.
-                                    // From frontEnd/Admin/, this path is correct.
+                                    $alt = htmlspecialchars($product['name']);
+                                    // Always show the image, fallback to placeholder on error
                                     ?>
-                                    <img src="<?php echo htmlspecialchars($image_path); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>" class="product-image-thumbnail">
+                                    <img src="<?= htmlspecialchars($image_path) ?>" alt="<?= $alt ?>" class="product-image-thumbnail" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                                    <span class="product-image-placeholder" style="display:none;"><i class="fas fa-image"></i></span>
                                 </td>
-                                <td><?php echo htmlspecialchars($product['name']); ?></td>
-                                <td><?php echo htmlspecialchars($product['store_name']); ?></td>
-                                <td><?php echo htmlspecialchars(number_format($product['price'], 2)); ?> درهم</td>
-                                <td><?php echo htmlspecialchars($product['category_name']); ?></td>
-                                <td><?php echo htmlspecialchars(date('Y-m-d H:i', strtotime($product['created_at']))); ?></td>
+                                <td><?= htmlspecialchars($product['name']) ?></td>
+                                <td><?= htmlspecialchars($product['store_name']) ?></td>
+                                <td><?= htmlspecialchars(number_format($product['price'], 2)) ?> درهم</td>
+                                <td><?= htmlspecialchars($product['category_name']) ?></td>
+                                <td><?= htmlspecialchars(date('Y-m-d H:i', strtotime($product['created_at']))) ?></td>
                                 <td>
                                     <?php if ($product['is_approved']): ?>
                                         <span class="status-badge status-approved">موافق عليه</span>
@@ -313,15 +359,15 @@ if (isset($_SESSION['user_id'])) {
                                 </td>
                                 <td class="action-buttons">
                                     <?php if (!$product['is_approved']): ?>
-                                        <form method="POST" action="manage-products.php?filter=<?php echo htmlspecialchars($filter); ?>">
-                                            <input type="hidden" name="approve_product_id" value="<?php echo $product['id']; ?>">
+                                        <form method="POST" action="manage-products.php?filter=<?= htmlspecialchars($filter) ?>">
+                                            <input type="hidden" name="approve_product_id" value="<?= $product['id'] ?>">
                                             <button type="submit" class="btn btn-approve" title="موافقة"><i class="fas fa-check"></i> موافقة</button>
                                         </form>
-                                        <form method="POST" action="manage-products.php?filter=<?php echo htmlspecialchars($filter); ?>" onsubmit="return confirm('هل أنت متأكد أنك تريد رفض هذا المنتج؟ سيتم حذفه نهائياً.');">
-                                            <input type="hidden" name="reject_product_id" value="<?php echo $product['id']; ?>">
-                                            <button type="submit" class="btn btn-reject" title="رفض وحذف"><i class="fas fa-times"></i> رفض</button>
-                                        </form>
                                     <?php endif; ?>
+                                    <form method="POST" action="manage-products.php?filter=<?= htmlspecialchars($filter) ?>" onsubmit="return confirm('هل أنت متأكد أنك تريد حذف هذا المنتج؟ سيتم حذفه نهائياً.');">
+                                        <input type="hidden" name="reject_product_id" value="<?= $product['id'] ?>">
+                                        <button type="submit" class="btn btn-reject" title="حذف المنتج"><i class="fas fa-trash"></i> حذف</button>
+                                    </form>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
