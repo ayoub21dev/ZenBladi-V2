@@ -57,7 +57,7 @@ try {
                 </p>
                 <div class="action-buttons">
                     <button class="btn-large btn-question">هل أنت بائع؟</button>
-                    <button class="btn-large btn-browse">تصفح المنتجات</button>
+                    <a href="alll_Product.php" class="btn-large btn-browse">تصفح المنتجات</a>
                 </div>
             </div>
 

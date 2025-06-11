@@ -419,7 +419,7 @@ try {
                 <li><a href="reports.php"><i class="fas fa-flag"></i> التقارير والشكاوى</a></li>
                 <li><a href="settings.php"><i class="fas fa-cog"></i> إعدادات المنصة</a></li>
                 <li><a href="analytics.php"><i class="fas fa-chart-bar"></i> التحليلات</a></li>
-                <li><a href="../logout.php" class="logout-btn"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a></li>
+                <li><a href="logout.php" class="logout-btn"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a></li>
             </ul>
         </div>
 

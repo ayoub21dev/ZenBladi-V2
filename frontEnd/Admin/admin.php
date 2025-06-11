@@ -423,7 +423,7 @@ try {
                 <li><a href="reports.php"><i class="fas fa-flag"></i> التقارير والشكاوى</a></li>
                 <li><a href="settings.php"><i class="fas fa-cog"></i> إعدادات المنصة</a></li>
                 <li><a href="analytics.php"><i class="fas fa-chart-bar"></i> التحليلات</a></li>
-                <li><a href="../logout.php" class="logout-btn"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a></li>
+                <li><a href="logout.php" class="logout-btn"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a></li>
             </ul>
         </div>
 
@@ -488,7 +488,7 @@ try {
                 <div class="stat-card sales">
                     <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
                     <div class="stat-info">
-                        <h3><?= number_format($total_sales, 2) ?> ر.س</h3>
+                        <h3><?= number_format($total_sales, 2) ?> DH</h3>
                         <p>إجمالي المبيعات</p>
                     </div>
                 </div>

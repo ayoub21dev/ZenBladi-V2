@@ -294,7 +294,7 @@ if (isset($_SESSION['user_id'])) {
                 <li><a href="orders-panel.php"><i class="fas fa-shopping-cart"></i> لوحة الطلبات</a></li>
                 <li><a href="reports.php"><i class="fas fa-flag"></i> التقارير والشكاوى</a></li>
                 <li><a href="settings.php"><i class="fas fa-cog"></i> الإعدادات</a></li>
-                <li><a href="../logout.php" class="logout-btn"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a></li>
+                <li><a href="logout.php" class="logout-btn"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a></li>
             </ul>
         </div>
 

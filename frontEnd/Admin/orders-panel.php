@@ -82,68 +82,123 @@ try {
         .main-content { margin-right: 280px; padding: 30px; width: calc(100% - 280px); }
         .page-header { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 30px; }
         .page-header h1 { color: #2c3e50; font-size: 28px; margin-bottom: 10px; }
-        .filters-section { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        .filters-grid { display: flex; gap: 15px; flex-wrap: wrap; }
+        .filters-section { background: white; padding: 22px 20px 10px 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(44,62,80,0.07); margin-bottom: 22px; }
+        .filters-grid { display: flex; gap: 18px; flex-wrap: wrap; margin-bottom: 10px; }
         .form-group { display: flex; flex-direction: column; }
         .form-group label { margin-bottom: 5px; font-weight: bold; color: #2c3e50; }
-        .form-group input, .form-group select { padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px; }
-        .btn { padding: 8px 18px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; display: inline-block; text-align: center; transition: all 0.3s ease; }
-        .btn-primary { background: #3498db; color: white; }
-        .btn-primary:hover { background: #2980b9; }
-        .btn-danger { background: #e74c3c; color: white; }
-        .btn-danger:hover { background: #c0392b; }
-        .orders-table { background: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); overflow: hidden; width: 100%; margin-top: 20px; }
+        .form-group input, .form-group select { padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 15px; background: #f8f9fa; }
+        .btn { padding: 8px 18px; border: none; border-radius: 6px; cursor: pointer; text-decoration: none; display: inline-block; text-align: center; transition: all 0.3s ease; }
+        .btn-primary { background: linear-gradient(90deg, #3498db 80%, #2980b9 100%); color: white; font-weight: bold; }
+        .btn-primary:hover { background: linear-gradient(90deg, #2980b9 80%, #3498db 100%); }
+        .btn-danger { background: linear-gradient(90deg, #e74c3c 80%, #c0392b 100%); color: #fff; font-weight: bold; border: none; padding: 7px 18px; border-radius: 6px; font-size: 1rem; transition: background 0.2s; }
+        .btn-danger:hover { background: linear-gradient(90deg, #c0392b 80%, #e74c3c 100%); }
+        .orders-table {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(44,62,80,0.07);
+            overflow: hidden;
+            width: 100%;
+            margin-top: 20px;
+        }
         .orders-table th, .orders-table td {
-    padding: 16px 10px;
-    text-align: right;
-    border-bottom: 1px solid #ecf0f1;
-    font-size: 1.05rem;
-    vertical-align: middle;
-}
-.orders-table th {
-    background: linear-gradient(90deg, #f8f9fa 80%, #e3eafc 100%);
-    font-weight: bold;
-    color: #2c3e50;
-    letter-spacing: 0.5px;
-}
-.orders-table tbody tr:hover {
-    background: #f1f7ff;
-    transition: background 0.2s;
-}
-.orders-table td {
-    background: #fff;
-}
-.orders-table td:last-child {
-    text-align: center;
-}
-.status-badge {
-    padding: 7px 18px;
-    border-radius: 22px;
-    font-size: 1rem;
-    font-weight: bold;
-    display: inline-block;
-    min-width: 90px;
-    text-align: center;
-    line-height: 1.7;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
-    margin: 0 auto;
-    border: 1px solid #e0e0e0;
-}
-.btn.btn-danger {
-    background: linear-gradient(90deg, #e74c3c 80%, #c0392b 100%);
-    color: #fff;
-    font-weight: bold;
-    border: none;
-    padding: 7px 18px;
-    border-radius: 6px;
-    font-size: 1rem;
-    transition: background 0.2s;
-}
-.btn.btn-danger:hover {
-    background: linear-gradient(90deg, #c0392b 80%, #e74c3c 100%);
-}
-        @media (max-width: 900px) { .main-content { margin-right: 0; padding: 10px; } .orders-table th, .orders-table td { font-size: 13px; padding: 10px 4px; } }
-        @media (max-width: 600px) { .orders-table, .orders-table thead, .orders-table tbody, .orders-table th, .orders-table td, .orders-table tr { display: block; } .orders-table tr { margin-bottom: 15px; background: #fff; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); } .orders-table td { border: none; position: relative; padding-right: 50%; min-height: 40px; } .orders-table td:before { position: absolute; right: 10px; top: 12px; white-space: nowrap; font-weight: bold; color: #888; } .orders-table td:nth-child(1):before { content: 'رقم الطلب'; } .orders-table td:nth-child(2):before { content: 'العميل'; } .orders-table td:nth-child(3):before { content: 'البريد الإلكتروني'; } .orders-table td:nth-child(4):before { content: 'التاريخ'; } .orders-table td:nth-child(5):before { content: 'الحالة'; } .orders-table td:nth-child(6):before { content: 'الإجمالي'; } .orders-table td:nth-child(7):before { content: 'الإجراءات'; } }
+            padding: 16px 12px;
+            text-align: right;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 1.08rem;
+            vertical-align: middle;
+        }
+        .orders-table th {
+            background: #f8f9fa;
+            font-weight: bold;
+            color: #2c3e50;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        .orders-table tbody tr:hover {
+            background: #f3f8fd;
+            transition: background 0.2s;
+        }
+        .orders-table td {
+            background: #fff;
+        }
+        .orders-table td:last-child {
+            text-align: center;
+        }
+        .status-badge {
+            padding: 7px 18px;
+            border-radius: 22px;
+            font-size: 1rem;
+            font-weight: bold;
+            display: inline-block;
+            min-width: 90px;
+            text-align: center;
+            line-height: 1.7;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+            margin: 0 auto;
+            border: 1px solid #e0e0e0;
+        }
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffe8a1;
+        }
+        .status-approved {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #b7dfc7;
+        }
+        .status-delivered {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #b7dfc7;
+        }
+        .btn.btn-danger {
+            background: linear-gradient(90deg, #e74c3c 80%, #c0392b 100%);
+            color: #fff;
+            font-weight: bold;
+            border: none;
+            padding: 7px 18px;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: background 0.2s;
+        }
+        .btn.btn-danger:hover {
+            background: linear-gradient(90deg, #c0392b 80%, #e74c3c 100%);
+        }
+        .message {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        @media (max-width: 900px) {
+            .main-content { margin-right: 0; padding: 10px; }
+            .orders-table th, .orders-table td { font-size: 13px; padding: 10px 4px; }
+        }
+        @media (max-width: 600px) {
+            .orders-table, .orders-table thead, .orders-table tbody, .orders-table th, .orders-table td, .orders-table tr { display: block; }
+            .orders-table tr { margin-bottom: 15px; background: #fff; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+            .orders-table td { border: none; position: relative; padding-right: 50%; min-height: 40px; }
+            .orders-table td:before { position: absolute; right: 10px; top: 12px; white-space: nowrap; font-weight: bold; color: #888; }
+            .orders-table td:nth-child(1):before { content: 'رقم الطلب'; }
+            .orders-table td:nth-child(2):before { content: 'العميل'; }
+            .orders-table td:nth-child(3):before { content: 'البريد الإلكتروني'; }
+            .orders-table td:nth-child(4):before { content: 'التاريخ'; }
+            .orders-table td:nth-child(5):before { content: 'الحالة'; }
+            .orders-table td:nth-child(6):before { content: 'الإجمالي'; }
+            .orders-table td:nth-child(7):before { content: 'الإجراءات'; }
+        }
     </style>
 </head>
 <body>
@@ -162,7 +217,7 @@ try {
                 <li><a href="reports.php"><i class="fas fa-flag"></i> التقارير والشكاوى</a></li>
                 <li><a href="settings.php"><i class="fas fa-cog"></i> إعدادات المنصة</a></li>
                 <li><a href="analytics.php"><i class="fas fa-chart-bar"></i> التحليلات</a></li>
-                <li><a href="../logout.php" class="logout-btn"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a></li>
+                <li><a href="logout.php" class="logout-btn"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a></li>
             </ul>
         </div>
         <div class="main-content">
