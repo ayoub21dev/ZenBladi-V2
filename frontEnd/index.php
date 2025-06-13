@@ -176,6 +176,55 @@ try {
 
 
     <script src="assest/JS/mainNavigation.js"></script>
+    <!-- ========== Seller Join Section ========== -->
+    <section>
+    <div class="signup-container">
+        
+        <div class="form-section">
+            <div class="form-header">
+                <h1>انضم إلينا كبائع</h1>
+                <p>هل تنتج منتجات مغربية تقليدية أو طبيعية؟ انضم إلى منصتنا وابدأ في بيع منتجاتك عبر الإنترنت لعملاء من جميع أنحاء المغرب</p>
+            </div>
+            <ul class="features-list">
+                <li>
+                    <div class="check-icon"></div>
+                    إنشاء متجر خاص بك مجاناً
+                </li>
+                <li>
+                    <div class="check-icon"></div>
+                    إدارة المنتجات بسهولة
+                </li>
+                <li>
+                    <div class="check-icon"></div>
+                    الوصول إلى عملاء جدد في جميع أنحاء المغرب
+                </li>
+                <li>
+                    <div class="check-icon"></div>
+                    متابعة الطلبات وإدارة المبيعات
+                </li>
+            </ul>
+            <button class="cta-button" onclick="startRegistration()">
+                سجل كبائع الآن
+            </button>
+        </div>
+        <div class="image-section">
+            <div class="image-container">
+                <div class="main-illustration">
+                    <div class="store-icon">🏬</div>
+                </div>
+                <div class="image-text">
+                    <h2>ابدأ متجرك الآن</h2>
+                    <p>انضم إلى منصتنا وحقق أرباحاً من منتجاتك المحلية</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </section>
+    <script>
+        function startRegistration() {
+            window.location.href = 'SignUpSeller.php';
+        }
+    </script>
 </body>
 </html>
 

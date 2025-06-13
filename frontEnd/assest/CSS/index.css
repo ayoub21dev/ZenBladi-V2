@@ -11,7 +11,6 @@ body {
   padding-top: 80px;
 }
 
-
 /* =================start the hero section=======================  */
 .Hero-content {
   display: flex;
@@ -76,6 +75,7 @@ body {
   background-color: #5e8c6a;
   color: white;
   font-weight: 600;
+  text-decoration: none;
 }
 
 .btn-question {
@@ -108,13 +108,12 @@ body {
 
 /* ==================================why ZenBladi======================== */
 
-.whyZenbladi{
+.whyZenbladi {
   width: 100%;
   background-color: #f8f9fa;
   padding: 40px 20px;
   direction: rtl;
 }
-
 
 .containerzenbladi {
   max-width: 1200px;
@@ -196,23 +195,23 @@ body {
 
 @media (max-width: 768px) {
   .main-titleZenbladi {
-      font-size: 2rem;
-      margin-bottom: 30px;
+    font-size: 2rem;
+    margin-bottom: 30px;
   }
 
   .cards-containerZenbladi {
-      flex-direction: column;
-      align-items: center;
+    flex-direction: column;
+    align-items: center;
   }
 
   .cardZenbladi {
-      max-width: 100%;
-      margin-bottom: 20px;
+    max-width: 100%;
+    margin-bottom: 20px;
   }
 }
 
 /* ============================================The products part showen =================================== */
-/* تنسيق قسم المنتجات */
+
 .products-section {
   padding: 80px 20px;
   background-color: #f9f9f9;
@@ -229,7 +228,10 @@ body {
 
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Increased minimum width */
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(300px, 1fr)
+  ); /* Increased minimum width */
   gap: 30px;
   max-width: 1200px;
   margin: 0 auto;
@@ -240,7 +242,7 @@ body {
   background: white;
   border-radius: 20px;
   padding: 20px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease; /* Reduced transition time */
   text-align: center;
   display: flex;
@@ -253,16 +255,16 @@ body {
 
 .product-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
 .product-image {
   width: 100%;
-  height: 250px; /* Fixed height */
+  height: 250px;
   object-fit: cover;
   border-radius: 15px;
   margin-bottom: 15px;
-  background-color: #f5f5f5; /* Fallback background */
+  background-color: #f5f5f5;
 }
 
 .product-name {
@@ -270,7 +272,7 @@ body {
   font-weight: bold;
   color: #2c5530;
   margin: 10px 0;
-  height: 40px; /* Fixed height */
+  height: 40px;
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -281,7 +283,7 @@ body {
   font-size: 0.9rem;
   color: #666;
   margin: 10px 0;
-  height: 60px; /* Fixed height */
+  height: 60px;
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -316,7 +318,7 @@ body {
   font-weight: bold;
   transition: all 0.3s ease;
   width: 100%;
-  margin-top: auto; /* Push button to bottom */
+  margin-top: auto;
 }
 
 .order-btn:hover {
@@ -333,11 +335,164 @@ body {
 
 @media (max-width: 768px) {
   .products-grid {
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
   }
-  
+
   .section-title {
-      font-size: 2rem;
+    font-size: 2rem;
+  }
+}
+
+/* ========== Seller Join Section ========== */
+.signup-container {
+  background: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  max-width: 1000px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 600px;
+  margin: 60px auto 40px auto;
+  direction: rtl;
+  text-align: right;
+}
+.signup-container .image-section {
+  background-color: #5e8c6a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2rem;
+}
+.signup-container .image-container {
+  text-align: center;
+  color: white;
+}
+.signup-container .main-illustration {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+.signup-container .store-icon {
+  font-size: 5rem;
+  color: white;
+}
+.signup-container .image-text {
+  margin-top: 1.5rem;
+}
+.signup-container .image-text h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+.signup-container .image-text p {
+  font-size: 1rem;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+.signup-container .form-section {
+  padding: 3rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: #ffffff;
+}
+.signup-container .form-header {
+  text-align: right;
+  margin-bottom: 2.5rem;
+}
+.signup-container .form-header h1 {
+  font-size: 2.2rem;
+  color: #5e8c6a;
+  margin-bottom: 1rem;
+  font-weight: 800;
+}
+.signup-container .form-header p {
+  color: #666;
+  font-size: 1rem;
+  line-height: 1.6;
+  font-weight: 400;
+}
+.signup-container .features-list {
+  list-style: none;
+  margin: 2rem 0;
+  padding-right: 0;
+  text-align: right;
+}
+.signup-container .features-list li {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  color: #333;
+  padding: 0.5rem 0;
+  text-align: right;
+}
+.signup-container .check-icon {
+  width: 24px;
+  height: 24px;
+  background: #5e8c6a;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+  margin-left: 0;
+  flex-shrink: 0;
+}
+.signup-container .check-icon::before {
+  content: "✓";
+  color: white;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+.signup-container .cta-button {
+  background: #5e8c6a;
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 1.5rem;
+  font-family: "Almarai", sans-serif;
+}
+.signup-container .cta-button:hover {
+  background: #4a6b52;
+}
+@media (max-width: 768px) {
+  .signup-container {
+    grid-template-columns: 1fr;
+  }
+  .signup-container .image-section {
+    min-height: 300px;
+    padding: 2rem 1.5rem;
+  }
+  .signup-container .main-illustration {
+    width: 150px;
+    height: 150px;
+  }
+  .signup-container .store-icon {
+    font-size: 4rem;
+  }
+  .signup-container .form-section {
+    padding: 2rem 1.5rem;
+  }
+  .signup-container .form-header h1 {
+    font-size: 1.8rem;
+  }
+  .signup-container .image-text h2 {
+    font-size: 1.5rem;
   }
 }
