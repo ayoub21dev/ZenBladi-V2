@@ -1,4 +1,3 @@
-
 <?php require_once 'seller_logic.php'; ?>
 
 <!DOCTYPE html>
@@ -10,6 +9,42 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="../assest/CSS/Seller/Seller.css">
     <link rel="stylesheet" href="../assest/CSS/Seller/profile.css">
+    <style>
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.6);
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 700px;
+            border-radius: 10px;
+        }
+        .close-btn {
+            color: #aaa;
+            float: left;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close-btn:hover,
+        .close-btn:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
     <div class="dashboard-container">
@@ -40,9 +75,9 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const navLinks = document.querySelectorAll('.sidebar-nav a');
+            const navLinks = document.querySelectorAll('.sidebar-menu a');
             const sections = document.querySelectorAll('.dashboard-section');
-            const navItems = document.querySelectorAll('.sidebar-nav li');
+            const navItems = document.querySelectorAll('.sidebar-menu li');
 
             function switchSection(targetId) {
                 // Hide all sections
@@ -58,7 +93,7 @@
 
             function updateActiveLink(targetId) {
                 navItems.forEach(item => item.classList.remove('active'));
-                const targetLink = document.querySelector(`.sidebar-nav a[href$="${targetId}"]`);
+                const targetLink = document.querySelector(`.sidebar-menu a[href$="${targetId}"]`);
                 if (targetLink && !targetLink.href.includes('add-product.php')) {
                     targetLink.parentElement.classList.add('active');
                 }

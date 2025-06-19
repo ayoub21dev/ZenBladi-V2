@@ -1,0 +1,8 @@
+@import url('../base-dashboard.css');
+
+/* Client Theme Overrides */
+:root {
+    --primary-bg: linear-gradient(135deg, #a16207 0%, #facc15 100%);
+    --accent-color: #be123c;
+    --text-primary: #854d0e;
+} 

@@ -75,6 +75,11 @@ try {
     <link rel="stylesheet" href="../Includes/header.css">
     <title>جميع المنتجات - كنوز المغرب الطبيعية</title>
     <style>
+        .product-card-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
         .products-section {
             padding: 80px 20px;
             background-color: #f9f9f9;
@@ -298,17 +303,19 @@ try {
                         $imagePath = $baseAppPath . $correctRelativePath;
                         $fallbackImagePath = $baseAppPath . 'frontEnd/assest/images/placeholder.jpg';
                         ?>
-                        <div class="product-card">
-                            <img src="<?php echo htmlspecialchars($imagePath); ?>" 
-                                 alt="<?php echo htmlspecialchars($product['name']); ?>" 
-                                 class="product-image" 
-                                 onerror="this.onerror=null; this.src='<?php echo htmlspecialchars($fallbackImagePath); ?>';">
-                            <span class="product-category"><?php echo htmlspecialchars($product['category_name']); ?></span>
-                            <h3 class="product-name"><?php echo htmlspecialchars($product['name']); ?></h3>
-                            <p class="product-description"><?php echo htmlspecialchars($product['description']); ?></p>
-                            <div class="product-price"><?php echo htmlspecialchars($product['price']); ?> درهم</div>
-                            <button class="order-btn">اطلب الآن</button>
-                        </div>
+                        <a href="product_detail.php?id=<?= $product['id'] ?>" class="product-card-link">
+                            <div class="product-card">
+                                <img src="<?php echo htmlspecialchars($imagePath); ?>" 
+                                     alt="<?php echo htmlspecialchars($product['name']); ?>" 
+                                     class="product-image" 
+                                     onerror="this.onerror=null; this.src='<?php echo htmlspecialchars($fallbackImagePath); ?>';">
+                                <span class="product-category"><?php echo htmlspecialchars($product['category_name']); ?></span>
+                                <h3 class="product-name"><?php echo htmlspecialchars($product['name']); ?></h3>
+                                <p class="product-description"><?php echo htmlspecialchars(substr($product['description'], 0, 100)) . '...'; ?></p>
+                                <div class="product-price"><?php echo htmlspecialchars($product['price']); ?> درهم</div>
+                                <div class="order-btn">عرض التفاصيل</div>
+                            </div>
+                        </a>
                     <?php endforeach; ?>
                 <?php endif; ?>
             </div>

@@ -33,6 +33,13 @@ try {
     <link rel="stylesheet" href="../Includes/header.css">
  
     <title>كنوز المغرب الطبيعية</title>
+    <style>
+        .product-card-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+    </style>
 </head>
 <body>
     
@@ -74,34 +81,36 @@ try {
                     </div>
                 <?php else: ?>
                     <?php foreach ($products as $product): ?>
-                        <div class="product-card">
-                            <?php 
-                                $imagePath = $product['image'];
-                             
-                                $imageUrl = htmlspecialchars($product['image']);
-                                if (!str_starts_with($imageUrl, 'http') && !str_starts_with($imageUrl, '/')) {
-                                    
-                                    $baseAppPath = '/ZenBladi-V2/'; // Adjust if your setup is different
-                                    $imageUrl = $baseAppPath . ltrim($product['image'], '/');
-                                }
-                            ?>
-                            <img src="<?= $imageUrl ?>" 
-                                 alt="<?= htmlspecialchars($product['name']) ?>" 
-                                 class="product-image"
-                                 onerror="this.src='<?= $baseAppPath ?? '' ?>frontEnd/assest/images/default-product.jpg'; this.onerror=null;">
-                            
-                            <h3 class="product-name"><?= htmlspecialchars($product['name']) ?></h3>
-                            
-                            <div class="product-category"><?= htmlspecialchars($product['category_name']) ?></div>
-                            
-                            <p class="product-description"><?= htmlspecialchars($product['description']) ?></p>
-                            
-                            <div class="product-price"><?= number_format($product['price'], 2) ?> درهم</div>
-                            
-                            <button class="order-btn" onclick="orderProduct(<?= $product['id'] ?>)">
-                                اطلب الآن
-                            </button>
-                        </div>
+                        <a href="product_detail.php?id=<?= $product['id'] ?>" class="product-card-link">
+                            <div class="product-card">
+                                <?php 
+                                    $imagePath = $product['image'];
+                                 
+                                    $imageUrl = htmlspecialchars($product['image']);
+                                    if (!str_starts_with($imageUrl, 'http') && !str_starts_with($imageUrl, '/')) {
+                                        
+                                        $baseAppPath = '/ZenBladi-V2/'; // Adjust if your setup is different
+                                        $imageUrl = $baseAppPath . ltrim($product['image'], '/');
+                                    }
+                                ?>
+                                <img src="<?= $imageUrl ?>" 
+                                     alt="<?= htmlspecialchars($product['name']) ?>" 
+                                     class="product-image"
+                                     onerror="this.src='<?= $baseAppPath ?? '' ?>frontEnd/assest/images/default-product.jpg'; this.onerror=null;">
+                                
+                                <h3 class="product-name"><?= htmlspecialchars($product['name']) ?></h3>
+                                
+                                <div class="product-category"><?= htmlspecialchars($product['category_name']) ?></div>
+                                
+                                <p class="product-description"><?= htmlspecialchars(substr($product['description'], 0, 100)) . '...' ?></p>
+                                
+                                <div class="product-price"><?= number_format($product['price'], 2) ?> درهم</div>
+                                
+                                <div class="order-btn">
+                                    عرض التفاصيل
+                                </div>
+                            </div>
+                        </a>
                     <?php endforeach; ?>
                 <?php endif; ?>
             </div>
@@ -128,13 +137,7 @@ try {
     </main>
     
     <script src="assest/JS/mainNavigation.js"></script>
-    <script>
-        function orderProduct(productId) {
-            // يمكنك إضافة منطق الطلب هنا
-            alert('سيتم توجيهك لصفحة الطلب للمنتج رقم: ' + productId);
-            // مثال: window.location.href = 'order.php?product_id=' + productId;
-        }
-    </script>
+    
 <!-- =====================================================why ZenBladi?============================= -->
  <section class="whyZenbladi">
 <div class="containerzenbladi">

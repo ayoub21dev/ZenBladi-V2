@@ -54,6 +54,13 @@ try {
     $stmt = $pdo->prepare($sql);
     $stmt->execute($params);
     $orders = $stmt->fetchAll();
+    // Fetch products for each order
+    foreach ($orders as $key => $order) {
+        $products_sql = "SELECT p.name, ol.quantity, ol.total FROM order_link ol JOIN product p ON ol.product_id = p.id WHERE ol.order_id = ?";
+        $products_stmt = $pdo->prepare($products_sql);
+        $products_stmt->execute([$order['id']]);
+        $orders[$key]['products'] = $products_stmt->fetchAll();
+    }
 } catch (PDOException $e) {
     $message = 'خطأ في جلب الطلبات: ' . $e->getMessage();
     $messageType = 'error';
@@ -182,6 +189,10 @@ try {
             color: #721c24;
             border: 1px solid #f5c6cb;
         }
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4); }
+        .modal-content { background-color: #fefefe; margin: 10% auto; padding: 20px; border: 1px solid #888; width: 60%; border-radius: 8px; }
+        .close { color: #aaa; float: left; font-size: 28px; font-weight: bold; }
+        .close:hover, .close:focus { color: black; text-decoration: none; cursor: pointer; }
         @media (max-width: 900px) {
             .main-content { margin-right: 0; padding: 10px; }
             .orders-table th, .orders-table td { font-size: 13px; padding: 10px 4px; }
@@ -274,21 +285,14 @@ try {
                                     <td><?= $order['id'] ?></td>
                                     <td><?= htmlspecialchars($order['first_name'] . ' ' . $order['last_name']) ?></td>
                                     <td><?= htmlspecialchars($order['email']) ?></td>
-                                    <td><?= date('Y-m-d H:i', strtotime($order['created_at'])) ?></td>
+                                    <td><?= date('Y-m-d', strtotime($order['created_at'])) ?></td>
+                                    <td><span class="status-badge status-pending"><?= htmlspecialchars($order['status']) ?></span></td>
+                                    <td><?= number_format($order['total_amount'], 2) ?> د.م.</td>
                                     <td>
-                                        <span class="status-badge status-<?=
-                                            $order['status'] === 'تم التوصيل' ? 'delivered' :
-                                            ($order['status'] === 'بانتظار الموافقة' ? 'pending' :
-                                            ($order['status'] === 'قيد التجهيز' ? 'approved' : 'pending'))
-                                        ?>">
-                                            <?= htmlspecialchars($order['status']) ?>
-                                        </span>
-                                    </td>
-                                    <td><?= number_format($order['total_amount'], 2) ?> ر.س</td>
-                                    <td>
-                                        <form method="POST" style="display:inline;" onsubmit="return confirm('هل أنت متأكد من حذف هذا الطلب؟')">
+                                        <button class="btn btn-primary" onclick="viewOrder(<?= htmlspecialchars(json_encode($order)) ?>)">عرض التفاصيل</button>
+                                        <form method="POST" style="display:inline;" onsubmit="return confirm('هل أنت متأكد من حذف هذا الطلب؟');">
                                             <input type="hidden" name="delete_order_id" value="<?= $order['id'] ?>">
-                                            <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> حذف</button>
+                                            <button type="submit" class="btn btn-danger">حذف</button>
                                         </form>
                                     </td>
                                 </tr>
@@ -299,5 +303,48 @@ try {
             </div>
         </div>
     </div>
+
+    <!-- Order Details Modal -->
+    <div id="orderDetailsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>تفاصيل الطلب</h2>
+            <div id="modal-order-details"></div>
+        </div>
+    </div>
+
+    <script>
+    function viewOrder(order) {
+        const modal = document.getElementById('orderDetailsModal');
+        const detailsContainer = document.getElementById('modal-order-details');
+        let productsHtml = '<ul>';
+        order.products.forEach(p => {
+            productsHtml += `<li>${p.name} (الكمية: ${p.quantity}) - ${p.total} د.م.</li>`;
+        });
+        productsHtml += '</ul>';
+        detailsContainer.innerHTML = `
+            <p><strong>رقم الطلب:</strong> ${order.id}</p>
+            <p><strong>العميل:</strong> ${order.first_name} ${order.last_name}</p>
+            <p><strong>البريد الإلكتروني:</strong> ${order.email}</p>
+            <p><strong>عنوان الشحن:</strong> ${order.shipping_address}, ${order.shipping_city}</p>
+            <p><strong>الحالة:</strong> ${order.status}</p>
+            <p><strong>إجمالي المبلغ:</strong> ${order.total_amount} د.م.</p>
+            <p><strong>المنتجات:</strong></p>
+            ${productsHtml}
+        `;
+        modal.style.display = 'block';
+    }
+
+    function closeModal() {
+        document.getElementById('orderDetailsModal').style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        const modal = document.getElementById('orderDetailsModal');
+        if (event.target === modal) {
+            closeModal();
+        }
+    }
+    </script>
 </body>
 </html>

@@ -1,0 +1,8 @@
+@import url('../base-dashboard.css');
+
+/* Seller Theme Overrides */
+:root {
+    --primary-bg: linear-gradient(135deg, #166534 0%, #22c55e 100%);
+    --accent-color: #f97316;
+    --text-primary: #14532d;
+} 

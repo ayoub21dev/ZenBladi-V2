@@ -36,6 +36,21 @@ $orders_stmt = $pdo->prepare("
 $orders_stmt->execute([$seller_id]);
 $seller_orders = $orders_stmt->fetchAll();
 
+// For each order, get the associated products
+$orders_with_products = [];
+foreach ($seller_orders as $order) {
+    $products_stmt = $pdo->prepare("
+        SELECT p.name, ol.quantity, ol.total
+        FROM order_link ol
+        JOIN product p ON ol.product_id = p.id
+        WHERE ol.order_id = ? AND p.seller_id = ?
+    ");
+    $products_stmt->execute([$order['id'], $seller_id]);
+    $order_products = $products_stmt->fetchAll();
+    $order['products'] = $order_products;
+    $orders_with_products[] = $order;
+}
+
 $status_options = ['قيد المعالجة', 'مؤكد', 'تم الشحن', 'تم التوصيل', 'ملغي'];
 ?>
 <section id="orders" class="dashboard-section">
@@ -53,12 +68,13 @@ $status_options = ['قيد المعالجة', 'مؤكد', 'تم الشحن', 'ت
                     <th>المبلغ الإجمالي</th>
                     <th>الحالة</th>
                     <th>تغيير الحالة</th>
+                    <th>التفاصيل</th>
                 </tr>
             </thead>
             <tbody>
-                <?php if (empty($seller_orders)): ?>
+                <?php if (empty($orders_with_products)): ?>
                     <tr>
-                        <td colspan="7">
+                        <td colspan="8">
                             <div class="empty-state">
                                 <i class="fas fa-shopping-cart"></i>
                                 <p>لا توجد طلبات لعرضها.</p>
@@ -66,7 +82,7 @@ $status_options = ['قيد المعالجة', 'مؤكد', 'تم الشحن', 'ت
                         </td>
                     </tr>
                 <?php else: ?>
-                    <?php foreach ($seller_orders as $order): ?>
+                    <?php foreach ($orders_with_products as $order): ?>
                         <tr>
                             <td data-label="رقم الطلب">#<?= $order['id'] ?></td>
                             <td data-label="اسم العميل"><?= htmlspecialchars($order['shipping_fullname']) ?></td>
@@ -91,6 +107,11 @@ $status_options = ['قيد المعالجة', 'مؤكد', 'تم الشحن', 'ت
                                     <button type="submit" name="update_order_status" class="btn btn-update">تحديث</button>
                                 </form>
                             </td>
+                            <td data-label="التفاصيل">
+                                <button class="btn btn-view" onclick="showOrderDetails(<?= htmlspecialchars(json_encode($order)) ?>)">
+                                    <i class="fas fa-eye"></i> عرض
+                                </button>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 <?php endif; ?>
@@ -98,3 +119,64 @@ $status_options = ['قيد المعالجة', 'مؤكد', 'تم الشحن', 'ت
         </table>
     </div>
 </section>
+
+<!-- Order Details Modal -->
+<div id="order-details-modal" class="modal" style="display:none;">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <h2>تفاصيل الطلب</h2>
+        <div id="modal-order-id"></div>
+        <div id="modal-customer-info"></div>
+        <table id="modal-products-table">
+            <thead>
+                <tr>
+                    <th>المنتج</th>
+                    <th>الكمية</th>
+                    <th>السعر</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Product rows will be inserted here by JavaScript -->
+            </tbody>
+        </table>
+        <div id="modal-total-amount"></div>
+    </div>
+</div>
+
+<script>
+function showOrderDetails(order) {
+    document.getElementById('modal-order-id').innerHTML = `<h3>رقم الطلب: #${order.id}</h3>`;
+    
+    document.getElementById('modal-customer-info').innerHTML = `
+        <p><strong>العميل:</strong> ${order.shipping_fullname}</p>
+        <p><strong>العنوان:</strong> ${order.shipping_address}, ${order.shipping_city}</p>
+    `;
+
+    const productsTableBody = document.querySelector('#modal-products-table tbody');
+    productsTableBody.innerHTML = ''; // Clear previous entries
+    order.products.forEach(product => {
+        const row = `<tr>
+            <td>${product.name}</td>
+            <td>${product.quantity}</td>
+            <td>${parseFloat(product.total).toFixed(2)} درهم</td>
+        </tr>`;
+        productsTableBody.innerHTML += row;
+    });
+
+    document.getElementById('modal-total-amount').innerHTML = `<h4>المجموع: ${parseFloat(order.total_amount).toFixed(2)} درهم</h4>`;
+
+    document.getElementById('order-details-modal').style.display = 'block';
+}
+
+function closeModal() {
+    document.getElementById('order-details-modal').style.display = 'none';
+}
+
+// Close modal if user clicks outside of it
+window.onclick = function(event) {
+    const modal = document.getElementById('order-details-modal');
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
