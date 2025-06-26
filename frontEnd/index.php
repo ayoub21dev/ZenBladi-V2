@@ -86,11 +86,11 @@ try {
                                 <?php 
                                     $imagePath = $product['image'];
                                  
-                                    $imageUrl = htmlspecialchars($product['image']);
+                                    $imageUrl = htmlspecialchars($imagePath);
                                     if (!str_starts_with($imageUrl, 'http') && !str_starts_with($imageUrl, '/')) {
                                         
                                         $baseAppPath = '/ZenBladi-V2/'; // Adjust if your setup is different
-                                        $imageUrl = $baseAppPath . ltrim($product['image'], '/');
+                                        $imageUrl = $baseAppPath . ltrim($imagePath, '/');
                                     }
                                 ?>
                                 <img src="<?= $imageUrl ?>" 
@@ -132,7 +132,7 @@ try {
                 </a>
             </div>
         </section>
-        <!-- =========show 6 products=========  -->
+        <!-- ========= end of show 6 products=========  -->
 
     </main>
     
@@ -220,7 +220,7 @@ try {
                     <p>انضم إلى منصتنا وحقق أرباحاً من منتجاتك المحلية</p>
                 </div>
             </div>
-        </div>
+        </div>              
     </div>
     </section>
     <script>
