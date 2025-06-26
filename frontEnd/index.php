@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 require_once '../BackEnd/db.php'; 
 ?>
  <?php
-// استخراج 6 منتجات فقط مع معلومات التصنيف
+// Max 6 
 $sql = "SELECT p.id, p.name, p.description, p.price, p.image, c.name as category_name 
 FROM product p 
 JOIN category c ON p.category_id = c.id 
@@ -31,6 +31,7 @@ try {
     <link rel="stylesheet" href="assest/CSS/index.css">
     <link rel="stylesheet" href="assest/CSS/searchBar.css">
     <link rel="stylesheet" href="../Includes/header.css">
+    <link rel="stylesheet" href="../footer.css">
  
     <title>كنوز المغرب الطبيعية</title>
     <style>
@@ -229,5 +230,35 @@ try {
         }
     </script>
 </body>
+    <!-- ========== Footer ========== -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div>
+                <img src="../Includes/logo.png" alt="ZenBladi Logo" class="footer-logo">
+                
+                <p>منصة مغربية تجمع بين الجودة والأصالة لدعم الحرفيين المحليين وتقديم أفضل المنتجات التقليدية والطبيعية.</p>
+            </div>
+
+            <div>
+                <h3>روابط سريعة</h3>
+                <ul>
+                    <li><a href="index.php">الرئيسية</a></li>
+                    <li><a href="alll_Product.php">المنتجات</a></li>
+                    <li><a href="SignUpSeller.php">سجّل كبائع</a></li>
+                    <li><a href="login.php">تسجيل الدخول</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3>تواصل معنا</h3>
+                <p>البريد الإلكتروني: <a href="mailto:support@zenbladi.ma">support@zenbladi.ma</a></p>
+                <p>الهاتف: <a href="tel:+212600000000">+212 6 18 86 98 86</a></p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            &copy; 2025 زين بلادي. جميع الحقوق محفوظة.
+        </div>
+    </footer>
 </html>
 

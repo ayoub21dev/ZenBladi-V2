@@ -411,7 +411,7 @@ try {
         <!-- Sidebar -->
         <div class="sidebar">
             <div class="sidebar-header">
-                <h2>زين بلدي</h2>
+                <img src="../../Includes/logo.png" alt="ZenBladi Logo" style="height:60px; display:block; margin:auto;">
                 <p>لوحة تحكم الإدارة</p>
             </div>
             <ul class="sidebar-menu">

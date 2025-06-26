@@ -52,8 +52,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // Get filter parameters
 $search = $_GET['search'] ?? '';
-$date_from = $_GET['date_from'] ?? '';
-$date_to = $_GET['date_to'] ?? '';
 
 // Build query
 $where_conditions = [];
@@ -66,15 +64,7 @@ if (!empty($search)) {
     $params[] = "%$search%";
 }
 
-if (!empty($date_from)) {
-    $where_conditions[] = "DATE(created_at) >= ?";
-    $params[] = $date_from;
-}
 
-if (!empty($date_to)) {
-    $where_conditions[] = "DATE(created_at) <= ?";
-    $params[] = $date_to;
-}
 
 $where_clause = !empty($where_conditions) ? 'WHERE ' . implode(' AND ', $where_conditions) : '';
 
@@ -452,14 +442,6 @@ try {
                         <div class="form-group">
                             <label>البحث</label>
                             <input type="text" name="search" value="<?= htmlspecialchars($search) ?>" placeholder="اسم أو بريد إلكتروني">
-                        </div>
-                        <div class="form-group">
-                            <label>من تاريخ</label>
-                            <input type="date" name="date_from" value="<?= htmlspecialchars($date_from) ?>">
-                        </div>
-                        <div class="form-group">
-                            <label>إلى تاريخ</label>
-                            <input type="date" name="date_to" value="<?= htmlspecialchars($date_to) ?>">
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary">تطبيق الفلاتر</button>
