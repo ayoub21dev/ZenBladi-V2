@@ -72,6 +72,7 @@ try {
         </section>
         <!-- ===========Hero Section========= -->
 
+        
         <!-- =========show 6 products=========  -->
         <section class="products-section">
             <h2 class="section-title">منتجاتنا المميزة</h2>
@@ -189,7 +190,7 @@ try {
                 <h1>انضم إلينا كبائع</h1>
                 <p>هل تنتج منتجات مغربية تقليدية أو طبيعية؟ انضم إلى منصتنا وابدأ في بيع منتجاتك عبر الإنترنت لعملاء من جميع أنحاء المغرب</p>
             </div>
-            <ul class="features-list">
+            <ul class="features-list" dir="ltr">
                 <li>
                     <div class="check-icon"></div>
                     إنشاء متجر خاص بك مجاناً

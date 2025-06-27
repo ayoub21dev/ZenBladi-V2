@@ -51,7 +51,7 @@
         <!-- Sidebar -->
         <div class="sidebar">
             <div class="sidebar-header">
-                <h2>زين بلدي</h2>
+                <img src="../../Includes/logo.png" alt="ZenBladi Logo" style="max-width: 120px; height: auto; display: block; margin: 0 auto;">
                 <p>لوحة تحكم البائع</p>
             </div>
             <ul class="sidebar-menu">

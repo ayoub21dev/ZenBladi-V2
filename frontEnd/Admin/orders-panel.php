@@ -1,3 +1,5 @@
+
+/*
 <?php
 session_start();
 require_once '../../backend/db.php';
@@ -348,3 +350,4 @@ try {
     </script>
 </body>
 </html>
+*/

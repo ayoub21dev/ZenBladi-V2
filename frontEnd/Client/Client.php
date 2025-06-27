@@ -12,7 +12,7 @@
     <div class="dashboard-container">
         <aside class="sidebar">
             <div class="sidebar-header">
-                <h2>ZenBladi</h2>
+                <img src="../../Includes/logo.png" alt="ZenBladi Logo" style="max-width: 120px; height: auto; display: block; margin: 0 auto;">
             </div>
             <nav class="sidebar-nav">
                 <ul>
