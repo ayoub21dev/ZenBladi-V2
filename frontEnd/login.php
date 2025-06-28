@@ -19,8 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($user && password_verify($password, $user['password'])) {
             $_SESSION['user_id'] = $user['id'];
-            $_SESSION['user_type'] = 'client';
-            session_regenerate_id(true); // Regenerate session ID for security
+            $_SESSION['user_type'] = 'client';  
             header('Location: Client/Client.php');
             exit;
         }
@@ -33,7 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($user && password_verify($password, $user['password'])) {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_type'] = 'seller';
-            session_regenerate_id(true); // Regenerate session ID for security
             header('Location: Seller/Seller.php');
             exit;
         }
@@ -46,7 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($user && password_verify($password, $user['password'])) {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_type'] = 'admin';
-            session_regenerate_id(true); // Regenerate session ID for security
             header('Location: Admin/admin.php');
             exit;
         }
@@ -122,7 +119,7 @@ include __DIR__ . '/../Includes/header.php';
             </form>
         </div>
     </div>
-    <script src="assest/JS/mainNavigation.js"></script> <!-- Or your combined navigation.js -->
+    <script src="assest/JS/mainNavigation.js"></script> 
 
 </body>
 </html>

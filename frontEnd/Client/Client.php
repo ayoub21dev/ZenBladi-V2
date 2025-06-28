@@ -7,6 +7,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'client') {
     header('Location: ../login.php');
     exit();
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
@@ -34,14 +35,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'client') {
             </nav>
         </aside>
         <main class="main-content">
-            <header class="main-header">
-                <div class="header-left">
-                    <button class="menu-toggle"><i class="fas fa-bars"></i></button>
-                </div>
-                <div class="header-user">
-                    <span>مرحباً، <?php echo htmlspecialchars($customerName); ?>!</span>
-                </div>
-            </header>
+        
             
             <?php include 'dashboard_home.php'; ?>
             <?php include 'my_orders.php'; ?>

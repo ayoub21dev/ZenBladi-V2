@@ -1,6 +1,6 @@
 <!-- Dashboard Home Section -->
 <section id="dashboard" class="dashboard-section active-section">
-    <h1 class="welcome-message">أهلاً بك في لوحة تحكمك!</h1>
+    <h1 class="welcome-message">مرحباً <?php echo htmlspecialchars($customerName); ?>، في لوحة تحكمك!</h1>
     <div class="stats-container">
         <div class="stat-card">
             <div class="stat-icon"><i class="fas fa-box-open"></i></div>
@@ -43,9 +43,9 @@
                 <?php else: ?>
                     <?php foreach ($recentOrders as $order): ?>
                         <tr>
-                            <td data-label="رقم الطلب">#ZB<?php echo $order['id']; ?></td>
+                            <td data-label="رقم الطلب">#<?php echo $order['id']; ?></td>
                             <td data-label="التاريخ"><?php echo $order['order_date']; ?></td>
-                            <td data-label="الإجمالي">$<?php echo htmlspecialchars(number_format(getOrderTotal($order['id'], $pdo), 2)); ?></td>
+                            <td data-label="الإجمالي"><?php echo htmlspecialchars(number_format(getOrderTotal($order['id'], $pdo), 2)); ?>DH</td>
                             <td data-label="الحالة"><span class="status <?php echo strtolower(str_replace(' ', '-', $order['status'])); ?>"><?php echo htmlspecialchars($order['status']); ?></span></td>
                             <td data-label="إجراء">
                                 <button class="btn">عرض التفاصيل</button>
