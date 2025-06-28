@@ -1,7 +1,5 @@
 <?php
 
-
-
 require_once __DIR__ . '/../../Includes/session_config.php';
 require_once 'client_logic.php';
 // Check if client is logged in
@@ -51,43 +49,36 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'client') {
 
         </main>
     </div>
-    <script>
+       <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const menuToggle = document.querySelector('.menu-toggle');
-            const sidebar = document.querySelector('.sidebar');
             const navLinks = document.querySelectorAll('.sidebar-nav a');
             const sections = document.querySelectorAll('.dashboard-section');
             const navItems = document.querySelectorAll('.sidebar-nav li');
 
-            // Function to switch section
             function switchSection(targetId) {
+                // Hide all sections
                 sections.forEach(section => {
-                    section.classList.remove('active-section');
+                    section.style.display = 'none';
                 });
+                // Show the target section
                 const targetSection = document.querySelector(targetId);
                 if (targetSection) {
-                    targetSection.classList.add('active-section');
+                    targetSection.style.display = 'block';
                 }
             }
 
-            // Handle hash on page load
-            if (window.location.hash) {
-                const targetId = window.location.hash;
-                const targetLink = document.querySelector(`.sidebar-nav a[href="${targetId}"]`);
+            function updateActiveLink(targetId) {
+                navItems.forEach(item => item.classList.remove('active'));
+                const targetLink = document.querySelector(`.sidebar-nav a[href$="${targetId}"]`);
                 if (targetLink) {
-                    navItems.forEach(item => item.classList.remove('active'));
                     targetLink.parentElement.classList.add('active');
-                    switchSection(targetId);
                 }
-            } else {
-                // Default to dashboard if no hash
-                switchSection('#dashboard');
             }
 
-            // Menu toggle for mobile
-            if (menuToggle) {
-                menuToggle.addEventListener('click', () => sidebar.classList.toggle('active'));
-            }
+            // Initial load
+            const currentHash = window.location.hash || '#dashboard';
+            switchSection(currentHash);
+            updateActiveLink(currentHash);
 
             // Handle sidebar link clicks
             navLinks.forEach(link => {
@@ -95,18 +86,16 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'client') {
                     const targetId = this.getAttribute('href');
                     if (targetId.startsWith('#')) {
                         e.preventDefault();
-                        history.pushState(null, null, targetId); // Update URL hash
-                        
-                        navItems.forEach(item => item.classList.remove('active'));
-                        this.parentElement.classList.add('active');
-                        
-                        switchSection(targetId);
-
-                        if (window.innerWidth <= 992 && sidebar.classList.contains('active')) {
-                            sidebar.classList.remove('active');
-                        }
+                        window.location.hash = targetId; // This will trigger the hashchange event
                     }
                 });
+            });
+
+             // Listen for hash changes to handle back/forward navigation
+            window.addEventListener('hashchange', () => {
+                const hash = window.location.hash || '#dashboard';
+                switchSection(hash);
+                updateActiveLink(hash);
             });
         });
     </script>
