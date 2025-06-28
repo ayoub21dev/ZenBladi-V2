@@ -87,18 +87,20 @@ try {
                             <div class="product-card">
                                 <?php 
                                     $imagePath = $product['image'];
-                                 
-                                    $imageUrl = htmlspecialchars($imagePath);
-                                    if (!str_starts_with($imageUrl, 'http') && !str_starts_with($imageUrl, '/')) {
-                                        
-                                        $baseAppPath = '/ZenBladi-V2/'; // Adjust if your setup is different
-                                        $imageUrl = $baseAppPath . ltrim($imagePath, '/');
+                                    $baseAppPath = '/ZenBladi-V2/';
+                                    $correctRelativePath = $imagePath;
+                                    if (strpos($imagePath, '../') === 0) {
+                                        $correctRelativePath = 'frontEnd/' . substr($imagePath, 3);
+                                    } else if (strpos($imagePath, 'frontEnd/') !== 0) {
+                                        $correctRelativePath = 'frontEnd/' . ltrim($imagePath, '/');
                                     }
+                                    $imageUrl = $baseAppPath . $correctRelativePath;
+                                    $fallbackImagePath = $baseAppPath . 'frontEnd/assest/images/default-product.jpg';
                                 ?>
                                 <img src="<?= $imageUrl ?>" 
                                      alt="<?= htmlspecialchars($product['name']) ?>" 
                                      class="product-image"
-                                     onerror="this.src='<?= $baseAppPath ?? '' ?>frontEnd/assest/images/default-product.jpg'; this.onerror=null;">
+                                     onerror="this.onerror=null; this.src='<?= $fallbackImagePath ?>';">
                                 
                                 <h3 class="product-name"><?= htmlspecialchars($product['name']) ?></h3>
                                 

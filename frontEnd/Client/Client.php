@@ -1,4 +1,15 @@
-<?php require_once 'client_logic.php'; ?>
+<?php
+
+
+
+require_once __DIR__ . '/../../Includes/session_config.php';
+require_once 'client_logic.php';
+// Check if client is logged in
+if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'client') {
+    header('Location: ../login.php');
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>

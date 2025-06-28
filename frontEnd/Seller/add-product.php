@@ -1,5 +1,6 @@
 <?php
-session_start();
+require_once __DIR__ . '/../../Includes/session_config.php';
+
 require_once '../../backend/db.php';
 
 // Check if seller is logged in
@@ -42,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $messageType = 'error';
     } else {
         // Handle image upload
-        $upload_dir = '../assest/img_Products/';
+        $upload_dir = 'assest/img_Products/';
         $allowed_types = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp', 'image/avif'];
         $max_size = 5 * 1024 * 1024; // 5MB
         
@@ -61,11 +62,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             // Generate unique filename
             $new_filename = uniqid() . '_' . time() . '.' . $file_ext;
-            $upload_path = $upload_dir . $new_filename;
+            $image_db_path = $upload_dir . $new_filename; // هذا اللي غادي نخزنو فالداتا
+            $upload_path = __DIR__ . '/../' . $image_db_path; // هذا المسار الحقيقي للرفع
             
             // Create directory if it doesn't exist
-            if (!file_exists($upload_dir)) {
-                mkdir($upload_dir, 0777, true);
+            if (!file_exists(__DIR__ . '/../' . $upload_dir)) {
+                mkdir(__DIR__ . '/../' . $upload_dir, 0777, true);
             }
             
             if (move_uploaded_file($file_tmp, $upload_path)) {
@@ -74,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $insert_query = "INSERT INTO product (seller_id, name, description, price, image, category_id, is_approved) VALUES (?, ?, ?, ?, ?, ?, FALSE)";
                     $stmt = $pdo->prepare($insert_query);
                     
-                    if ($stmt->execute([$seller_id, $name, $description, $price, $upload_path, $category_id])) {
+                    if ($stmt->execute([$seller_id, $name, $description, $price, $image_db_path, $category_id])) {
                         $message = 'تم إضافة المنتج بنجاح! سيتم مراجعته من قبل الإدارة قبل النشر.';
                         $messageType = 'success';
                         // Clear form data
@@ -361,7 +363,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     
                     <div class="form-group">
                         <label for="price">السعر (درهم) *</label>
-                        <input type="number" id="price" name="price" step="0.01" min="0" value="<?php echo htmlspecialchars($_POST['price'] ?? ''); ?>" required>
+                        <input type="number" id="price" name="price" step="1" min="0" value="<?php echo htmlspecialchars($_POST['price'] ?? ''); ?>" required>
                     </div>
                     
                     <div class="form-group">

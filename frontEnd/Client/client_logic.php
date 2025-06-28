@@ -1,8 +1,7 @@
 <?php
-// This file centralizes all the business logic for the client dashboard.
 
-session_start();
-require_once '../../backend/db.php'; // Adjust path as needed
+
+require_once '../../backend/db.php';
 
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {

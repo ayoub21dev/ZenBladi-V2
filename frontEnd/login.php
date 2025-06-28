@@ -1,5 +1,6 @@
 <?php
-session_start();
+
+require_once __DIR__ . '/../Includes/session_config.php';
 require_once '../BackEnd/db.php';
 
 // Handle form submission
@@ -19,6 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($user && password_verify($password, $user['password'])) {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_type'] = 'client';
+            session_regenerate_id(true); // Regenerate session ID for security
             header('Location: Client/Client.php');
             exit;
         }
@@ -29,8 +31,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user = $stmt->fetch();
 
         if ($user && password_verify($password, $user['password'])) {
-            $_SESSION['user_id'] = $user['id'];  // Changed from user_id to seller_id
+            $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_type'] = 'seller';
+            session_regenerate_id(true); // Regenerate session ID for security
             header('Location: Seller/Seller.php');
             exit;
         }
@@ -43,6 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($user && password_verify($password, $user['password'])) {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_type'] = 'admin';
+            session_regenerate_id(true); // Regenerate session ID for security
             header('Location: Admin/admin.php');
             exit;
         }

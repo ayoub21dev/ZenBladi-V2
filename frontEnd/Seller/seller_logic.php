@@ -1,7 +1,6 @@
 <?php
 // This file centralizes all the business logic for the seller dashboard.
 
-session_start();
 require_once '../../backend/db.php';
 
 // Check if seller is logged in

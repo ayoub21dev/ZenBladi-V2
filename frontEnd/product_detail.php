@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once __DIR__ . '/../Includes/session_config.php';
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -36,10 +36,15 @@ if (!$product) {
 }
 
 $baseAppPath = '/ZenBladi-V2/'; // Adjust if your setup is different
-$imageUrl = htmlspecialchars($product['image']);
-if (!str_starts_with($imageUrl, 'http') && !str_starts_with($imageUrl, '/')) {
-    $imageUrl = $baseAppPath . ltrim($product['image'], '/');
+$imagePath = $product['image'];
+$correctRelativePath = $imagePath;
+if (strpos($imagePath, '../') === 0) {
+    $correctRelativePath = 'frontEnd/' . substr($imagePath, 3);
+} else if (strpos($imagePath, 'frontEnd/') !== 0) {
+    $correctRelativePath = 'frontEnd/' . ltrim($imagePath, '/');
 }
+$imageUrl = $baseAppPath . $correctRelativePath;
+$fallbackImagePath = $baseAppPath . 'frontEnd/assest/images/default-product.jpg';
 
 $userId = $_SESSION['user_id'] ?? null;
 
@@ -174,7 +179,7 @@ $userId = $_SESSION['user_id'] ?? null;
             <img src="<?= $imageUrl ?>" 
                  alt="<?= htmlspecialchars($product['name']) ?>" 
                  class="product-detail-image"
-                 onerror="this.src='<?= $baseAppPath ?>frontEnd/assest/images/default-product.jpg'; this.onerror=null;">
+                 onerror="this.onerror=null; this.src='<?= $fallbackImagePath ?>';">
         </div>
 
         <div class="product-info-section">

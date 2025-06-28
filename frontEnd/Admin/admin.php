@@ -1,12 +1,19 @@
 <?php
-session_start();
+require_once __DIR__ . '/../../Includes/session_config.php';
 require_once '../../backend/db.php';
+
 
 // Check if admin is logged in
 if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'admin') {
+    
     header('Location: ../login.php');
     exit();
 }
+
+
+
+
+
 
 
 $admin_id = $_SESSION['user_id'];

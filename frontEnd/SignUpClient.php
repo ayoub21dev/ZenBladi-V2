@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once __DIR__ . '/../Includes/session_config.php';
 require_once '../BackEnd/db.php';
 
 // نتحققو إذا جاينا من redirect بحالة التسجيل الناجح
