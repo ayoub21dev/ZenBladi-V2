@@ -2,6 +2,28 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
+// Helper function to normalize image paths
+function get_correct_image_path($raw_path) {
+    // The target directory is 'assest/img_Products/'
+    $target_dir = 'assest/img_Products/';
+
+    // Find the last occurrence of the target directory in the path
+    $pos = strrpos($raw_path, $target_dir);
+
+    if ($pos !== false) {
+        // If found, take the substring from that point onwards
+        return substr($raw_path, $pos);
+    } else {
+        // If the target directory is not in the path, it might be an old path
+        // that only contains the filename. Prepend the target directory.
+        // This handles cases where the path is just 'image.jpg'
+        return $target_dir . basename($raw_path);
+    }
+}
+
+// IMPORTANT: include session/header before any output
+include __DIR__ . '/../Includes/header.php';
 require_once '../BackEnd/db.php'; 
 
 // Define the base path for your application
@@ -272,8 +294,6 @@ try {
     </style>
 </head>
 <body>
-    <?php include __DIR__ . '/../Includes/header.php'; ?>
-
     <main>
         <section class="products-section">
             <h2 class="section-title">جميع المنتجات</h2>
@@ -305,7 +325,7 @@ try {
                         ?>
                         <a href="product_detail.php?id=<?= $product['id'] ?>" class="product-card-link">
                             <div class="product-card">
-                                <img src="<?php echo htmlspecialchars($imagePath); ?>" 
+                                <img src="<?= htmlspecialchars(get_correct_image_path($product['image'])) ?>" 
                                      alt="<?php echo htmlspecialchars($product['name']); ?>" 
                                      class="product-image" 
                                      onerror="this.onerror=null; this.src='<?php echo htmlspecialchars($fallbackImagePath); ?>';">

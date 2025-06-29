@@ -1,23 +1,25 @@
 <?php
+// Helper function to normalize image paths
+function get_correct_image_path($raw_path) {
+    // The target directory is 'assest/img_Products/'
+    $target_dir = 'assest/img_Products/';
+
+    // Find the last occurrence of the target directory in the path
+    $pos = strrpos($raw_path, $target_dir);
+
+    if ($pos !== false) {
+        // If found, take the substring from that point onwards
+        return substr($raw_path, $pos);
+    } else {
+        // If the target directory is not in the path, it might be an old path
+        // that only contains the filename. Prepend the target directory.
+        // This handles cases where the path is just 'image.jpg'
+        return $target_dir . basename($raw_path);
+    }
+}
+
 // This is a partial file for the products section
 // It expects $seller_id and $pdo to be defined from seller_logic.php
-
-// Handle Product Deletion
-if (isset($_POST['delete_product'])) {
-    $product_id_to_delete = $_POST['product_id'];
-    
-    // To maintain data integrity, we should first delete order items linked to the product
-    $delete_order_links_stmt = $pdo->prepare("DELETE FROM order_link WHERE product_id = ?");
-    $delete_order_links_stmt->execute([$product_id_to_delete]);
-
-    // Now, delete the product
-    $delete_product_stmt = $pdo->prepare("DELETE FROM product WHERE id = ? AND seller_id = ?");
-    $delete_product_stmt->execute([$product_id_to_delete, $seller_id]);
-    
-    // Redirect to the same page to see the changes
-    header('Location: Seller.php#products');
-    exit();
-}
 
 
 // Fetch all products for this seller
@@ -62,7 +64,7 @@ $all_products = $products_stmt->fetchAll();
                 <?php else: ?>
                     <?php foreach ($all_products as $product): ?>
                         <tr>
-                            <td><img src="../assest/images/<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['name']) ?>" class="product-thumbnail"></td>
+                            <td><img src="../<?= htmlspecialchars(get_correct_image_path($product['image'])) ?>" alt="<?= htmlspecialchars($product['name']) ?>" class="product-thumbnail"></td>
                             <td data-label="اسم المنتج"><?= htmlspecialchars($product['name']) ?></td>
                             <td data-label="السعر"><?= number_format($product['price'], 2) ?> درهم</td>
                             <td data-label="الصنف"><?= htmlspecialchars($product['category_name']) ?></td>
@@ -77,9 +79,9 @@ $all_products = $products_stmt->fetchAll();
                                         <input type="hidden" name="edit_id" value="<?= $product['id'] ?>">
                                         <button type="submit" class="btn btn-edit"><i class="fas fa-edit"></i> تعديل</button>
                                     </form>
-                                    <form action="#products" method="post" style="display: inline;" onsubmit="return confirm('هل أنت متأكد من أنك تريد حذف هذا المنتج؟');">
+                                    <form action="#products" method="post" style="display: inline;">
                                         <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
-                                        <button type="submit" name="delete_product" class="btn btn-delete"><i class="fas fa-trash"></i> حذف</button>
+                                        <button type="button" class="btn btn-delete" onclick="openDeleteModal(<?= $product['id'] ?>)"><i class="fas fa-trash"></i> حذف</button>
                                     </form>
                                 </div>
                             </td>
@@ -90,3 +92,95 @@ $all_products = $products_stmt->fetchAll();
         </table>
     </div>
 </section>
+
+<!-- Deletion Confirmation Modal -->
+<div id="delete-confirm-modal" class="modal" style="display:none;">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>تأكيد الحذف</h2>
+        <p>هل أنت متأكد من أنك تريد حذف هذا المنتج؟ لا يمكن التراجع عن هذا الإجراء.</p>
+        <div class="modal-actions">
+            <button id="cancel-delete" class="btn btn-secondary">إلغاء</button>
+            <form id="delete-form" action="#products" method="post" style="display: inline;">
+                <input type="hidden" name="product_id" id="product-id-to-delete">
+                <button type="submit" name="delete_product" class="btn btn-delete">حذف المنتج</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+.modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+    width: 90%;
+    max-width: 450px;
+    text-align: center;
+    animation: fadeIn 0.3s;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+.modal-content h2 {
+    font-size: 1.8rem;
+    color: #2c5530;
+    margin-bottom: 15px;
+}
+.modal-content p {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 25px;
+}
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+.close-btn {
+    color: #aaa;
+    float: left;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.close-btn:hover {
+    color: #333;
+}
+</style>
+
+<script>
+function openDeleteModal(productId) {
+    document.getElementById('product-id-to-delete').value = productId;
+    document.getElementById('delete-confirm-modal').style.display = 'flex';
+}
+
+document.querySelector('.close-btn').onclick = function() {
+    document.getElementById('delete-confirm-modal').style.display = 'none';
+}
+
+document.getElementById('cancel-delete').onclick = function() {
+    document.getElementById('delete-confirm-modal').style.display = 'none';
+}
+
+window.onclick = function(event) {
+    if (event.target == document.getElementById('delete-confirm-modal')) {
+        document.getElementById('delete-confirm-modal').style.display = 'none';
+    }
+}
+</script>

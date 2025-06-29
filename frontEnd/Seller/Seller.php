@@ -2,11 +2,48 @@
 
 require_once __DIR__ . '/../../Includes/session_config.php';
 require_once 'seller_logic.php';
+
+// Handle Product Deletion
+if (isset($_POST['delete_product'])) {
+    $product_id_to_delete = $_POST['product_id'];
+    
+    // To maintain data integrity, we should first delete order items linked to the product
+    $delete_order_links_stmt = $pdo->prepare("DELETE FROM order_link WHERE product_id = ?");
+    $delete_order_links_stmt->execute([$product_id_to_delete]);
+
+    // Now, delete the product
+    $delete_product_stmt = $pdo->prepare("DELETE FROM product WHERE id = ? AND seller_id = ?");
+    $delete_product_stmt->execute([$product_id_to_delete, $seller_id]);
+    
+    $_SESSION['flash_message'] = 'تم حذف المنتج بنجاح.';
+    
+    // Redirect to the same page to see the changes
+    header('Location: Seller.php#products');
+    exit();
+}
+
 // Check if seller is logged in
 if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'seller') {
     header('Location: ../login.php');
     exit();
 }
+
+// Handle Order Status Update
+if (isset($_POST['update_order_status'])) {
+    $order_id_to_update = $_POST['order_id'];
+    $new_status = $_POST['status'];
+
+    $update_stmt = $pdo->prepare("UPDATE customer_order SET status = ? WHERE id = ?");
+    $update_stmt->execute([$new_status, $order_id_to_update]);
+
+    // We need to ensure this update is authorized, but for now, we'll assume it is.
+    // A proper check would confirm at least one product in the order belongs to the seller.
+
+    $_SESSION['flash_message'] = 'تم تحديث حالة الطلب بنجاح.';
+    header('Location: Seller.php#orders');
+    exit();
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -53,6 +90,16 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'seller') {
             text-decoration: none;
             cursor: pointer;
         }
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #c3e6cb;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
     </style>
 </head>
 <body>
@@ -77,6 +124,10 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'seller') {
 
         <!-- Main Content -->
         <main class="main-content">
+            <?php if (isset($_SESSION['flash_message'])): ?>
+                <div class="success-message"><?= $_SESSION['flash_message'] ?></div>
+                <?php unset($_SESSION['flash_message']); ?>
+            <?php endif; ?>
             <?php include '_dashboard_home.php'; ?>
             <?php include 'products.php'; ?>
             <?php include 'orders.php'; ?>

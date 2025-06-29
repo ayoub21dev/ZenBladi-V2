@@ -2,21 +2,6 @@
 // This is a partial file for the orders section.
 // It expects $seller_id and $pdo to be defined from seller_logic.php
 
-// Handle Order Status Update
-if (isset($_POST['update_order_status'])) {
-    $order_id_to_update = $_POST['order_id'];
-    $new_status = $_POST['status'];
-
-    $update_stmt = $pdo->prepare("UPDATE customer_order SET status = ? WHERE id = ?");
-    $update_stmt->execute([$new_status, $order_id_to_update]);
-
-    // We need to ensure this update is authorized, but for now, we'll assume it is.
-    // A proper check would confirm at least one product in the order belongs to the seller.
-
-    header('Location: Seller.php#orders');
-    exit();
-}
-
 // Fetch all orders containing this seller's products
 $orders_stmt = $pdo->prepare("
     SELECT DISTINCT
@@ -26,6 +11,7 @@ $orders_stmt = $pdo->prepare("
         co.shipping_fullname,
         co.shipping_address,
         co.shipping_city,
+        co.shipping_phone, 
         (SELECT SUM(ol.total) FROM order_link ol WHERE ol.order_id = co.id) as total_amount
     FROM customer_order co
     JOIN order_link ol ON co.id = ol.order_id
@@ -53,6 +39,112 @@ foreach ($seller_orders as $order) {
 
 $status_options = ['قيد المعالجة', 'مؤكد', 'تم الشحن', 'تم التوصيل', 'ملغي'];
 ?>
+<style>
+    .dashboard-section {
+        background: #f8fdfb;
+        border-radius: 16px;
+        padding: 32px 24px 24px 24px;
+        margin: 32px auto;
+        max-width: 1200px;
+        box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+    }
+    .section-header h1 {
+        font-size: 2.2rem;
+        margin-bottom: 24px;
+        color: #1a3c40;
+        letter-spacing: 1px;
+        text-align: right;
+    }
+    .table-container {
+        overflow-x: auto;
+    }
+    table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+        margin-bottom: 0;
+    }
+    thead th {
+        background: #e6f2ef;
+        color: #1a3c40;
+        font-weight: 700;
+        padding: 16px 10px;
+        border-bottom: 2px solid #d1e7e0;
+        text-align: right;
+        font-size: 1.1rem;
+    }
+    tbody td {
+        padding: 14px 10px;
+        border-bottom: 1px solid #f0f0f0;
+        text-align: right;
+        font-size: 1rem;
+        vertical-align: middle;
+    }
+    tbody tr:last-child td {
+        border-bottom: none;
+    }
+    .status-badge {
+        padding: 6px 16px;
+        border-radius: 20px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #fff;
+        background: #6c757d;
+        display: inline-block;
+    }
+    .status-قيد-المعالجة { background: #ffc107; color: #333; }
+    .status-مؤكد { background: #17a2b8; }
+    .status-تم-الشحن { background: #007bff; }
+    .status-تم-التوصيل { background: #28a745; }
+    .status-ملغي { background: #dc3545; }
+    .btn {
+        padding: 6px 18px;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.2s;
+        margin: 0 2px;
+    }
+    .btn-update {
+        background: #17a2b8;
+        color: #fff;
+    }
+    .btn-update:hover {
+        background: #138496;
+    }
+    .btn-view {
+        background: #28a745;
+        color: #fff;
+    }
+    .btn-view:hover {
+        background: #218838;
+    }
+    .status-update-form select {
+        padding: 4px 10px;
+        border-radius: 5px;
+        border: 1px solid #d1e7e0;
+        margin-left: 6px;
+        font-size: 1rem;
+    }
+    .empty-state {
+        text-align: center;
+        color: #aaa;
+        padding: 40px 0;
+    }
+    .empty-state i {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+        color: #b2bec3;
+    }
+    @media (max-width: 900px) {
+        .dashboard-section { padding: 12px 2px; }
+        thead th, tbody td { font-size: 0.95rem; padding: 10px 4px; }
+    }
+</style>
 <section id="orders" class="dashboard-section">
     <div class="section-header">
         <h1>الطلبات</h1>
@@ -149,11 +241,12 @@ function showOrderDetails(order) {
     
     document.getElementById('modal-customer-info').innerHTML = `
         <p><strong>العميل:</strong> ${order.shipping_fullname}</p>
+        <p><strong>رقم الهاتف:</strong> ${order.shipping_phone ? order.shipping_phone : ''}</p>
         <p><strong>العنوان:</strong> ${order.shipping_address}, ${order.shipping_city}</p>
     `;
 
     const productsTableBody = document.querySelector('#modal-products-table tbody');
-    productsTableBody.innerHTML = ''; // Clear previous entries
+    productsTableBody.innerHTML = '';
     order.products.forEach(product => {
         const row = `<tr>
             <td>${product.name}</td>

@@ -1,4 +1,23 @@
 <?php
+// Helper function to normalize image paths
+function get_correct_image_path($raw_path) {
+    // The target directory is 'assest/img_Products/'
+    $target_dir = 'assest/img_Products/';
+
+    // Find the last occurrence of the target directory in the path
+    $pos = strrpos($raw_path, $target_dir);
+
+    if ($pos !== false) {
+        // If found, take the substring from that point onwards
+        return '../' . substr($raw_path, $pos);
+    } else {
+        // If the target directory is not in the path, it might be an old path
+        // that only contains the filename. Prepend the target directory.
+        // This handles cases where the path is just 'image.jpg'
+        return '../' . $target_dir . basename($raw_path);
+    }
+}
+
 require_once __DIR__ . '/../../Includes/session_config.php';
 require_once '../../backend/db.php';
 
@@ -346,7 +365,7 @@ if (isset($_SESSION['user_id'])) {
                                     $alt = htmlspecialchars($product['name']);
                                     // Always show the image, fallback to placeholder on error
                                     ?>
-                                    <img src="<?= htmlspecialchars($image_path) ?>" alt="<?= $alt ?>" class="product-image-thumbnail" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                                    <img src="<?= htmlspecialchars(get_correct_image_path($product['image'])) ?>" alt="<?= $alt ?>" class="product-image-thumbnail" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
                                     <span class="product-image-placeholder" style="display:none;"><i class="fas fa-image"></i></span>
                                 </td>
                                 <td><?= htmlspecialchars($product['name']) ?></td>
