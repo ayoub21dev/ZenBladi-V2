@@ -418,7 +418,9 @@ try {
         <!-- Sidebar -->
         <div class="sidebar">
             <div class="sidebar-header">
-                <img src="../../Includes/logo.png" alt="ZenBladi Logo" style="height:60px; display:block; margin:auto;">
+                <a href="../index.php">
+                    <img src="../../Includes/logo.png" alt="ZenBladi Logo" style="height:60px; display:block; margin:auto;">
+                </a>
                 <p>لوحة تحكم الإدارة</p>
             </div>
             <ul class="sidebar-menu">

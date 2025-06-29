@@ -190,18 +190,21 @@ $userId = $_SESSION['user_id'] ?? null;
             
             <div class="product-price-detail" data-price="<?= $product['price'] ?>"><?= number_format($product['price'], 2) ?> درهم</div>
 
-            <form action="javascript:void(0);" onsubmit="buyNow(<?= $product['id'] ?>)" class="buy-form">
+            <form action="javascript:void(0);" onsubmit="buyNow(event, <?= $product['id'] ?>)" class="buy-form">
                 <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
-                
                 <div class="quantity-selector">
                     <label for="quantity">الكمية:</label>
                     <input type="number" id="quantity" name="quantity" value="1" min="1" max="10">
                 </div>
-                
                 <button type="submit" class="buy-now-btn">
                     <i class="fas fa-shopping-cart"></i> اشتر الآن
                 </button>
             </form>
+            <div id="login-required-message" style="display:none; color: #333; background: #fffbe7; border: 1px solid #ffe082; border-radius: 8px; padding: 15px; margin-top: 20px; text-align: center; font-size: 1.05em;">
+                <span style="font-size:1.5em; color:#e6b800; vertical-align:middle;">&#9888;</span> 
+                المرجو <a href="login.php" style="color: #2c5530; text-decoration: underline; font-weight: bold;">تسجيل الدخول</a> لكي تتمكن من شراء هذا المنتج.<br>
+                إذا لم يكن لديك حساب، <a href="SignUpClient.php" style="color: #2c5530; text-decoration: underline; font-weight: bold;">أنشئ حساب جديد من هنا</a>.
+            </div>
         </div>
     </main>
 
@@ -259,24 +262,22 @@ $userId = $_SESSION['user_id'] ?? null;
     const modal = document.getElementById('checkout-modal');
     const closeBtn = document.querySelector('.close-btn');
 
-    function buyNow(productId) {
+    function buyNow(event, productId) {
         if (!userId) {
-            alert('يرجى تسجيل الدخول أولاً لإتمام عملية الشراء.');
-            window.location.href = 'login.php';
-            return;
+            event.preventDefault();
+            var msgDiv = document.getElementById('login-required-message');
+            msgDiv.style.display = 'block';
+            msgDiv.scrollIntoView({behavior: 'smooth', block: 'center'});
+            return false;
         }
-
         const quantity = document.getElementById('quantity').value;
         const price = document.querySelector('.product-price-detail').dataset.price;
         const totalPrice = (quantity * price).toFixed(2);
-        
         document.getElementById('modal-product-id').value = productId;
         document.getElementById('modal-quantity').value = quantity;
         document.getElementById('modal-total-price').value = totalPrice;
-
         document.getElementById('summary-quantity').textContent = quantity;
         document.getElementById('summary-total-price').textContent = `${totalPrice} درهم`;
-        
         modal.style.display = 'block';
     }
 

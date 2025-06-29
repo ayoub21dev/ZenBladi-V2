@@ -22,7 +22,9 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'client') {
     <div class="dashboard-container">
         <aside class="sidebar">
             <div class="sidebar-header">
-                <img src="../../Includes/logo.png" alt="ZenBladi Logo" style="max-width: 120px; height: auto; display: block; margin: 0 auto;">
+                <a href="../index.php">
+                    <img src="../../Includes/logo.png" alt="ZenBladi Logo" style="max-width: 120px; height: auto; display: block; margin: 0 auto;">
+                </a>
             </div>
             <nav class="sidebar-nav">
                 <ul>

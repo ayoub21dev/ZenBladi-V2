@@ -216,7 +216,9 @@ try {
     <div class="dashboard-container">
         <div class="sidebar">
             <div class="sidebar-header">
-                <h2>زين بلدي</h2>
+                <a href="../index.php" style="display:inline-block;">
+                    <img src="../../Includes/logo.png" alt="ZenBladi Logo" style="height:56px;max-width:100%;display:block;margin:0 auto 5px auto;">
+                </a>
                 <p>لوحة تحكم الإدارة</p>
             </div>
             <ul class="sidebar-menu">

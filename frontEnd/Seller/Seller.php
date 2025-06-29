@@ -60,7 +60,9 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'seller') {
         <!-- Sidebar -->
         <div class="sidebar">
             <div class="sidebar-header">
-                <img src="../../Includes/logo.png" alt="ZenBladi Logo" style="max-width: 120px; height: auto; display: block; margin: 0 auto;">
+                <a href="../index.php">
+                    <img src="../../Includes/logo.png" alt="ZenBladi Logo" style="max-width: 120px; height: auto; display: block; margin: 0 auto;">
+                </a>
                 <p>لوحة تحكم البائع</p>
             </div>
             <ul class="sidebar-menu">
