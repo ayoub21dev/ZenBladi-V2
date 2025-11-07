@@ -66,17 +66,5 @@ The application supports a multi-role structure:
 *   **Seller:** Sign up, log in, add new products, manage existing products, view their orders, and manage their profile.
 *   **Admin:** Log in, manage users (Clients and Sellers), manage products, and oversee orders through dedicated panels.
 
-## 🤝 Contributing
 
-This project is a great foundation for a web application. If you wish to contribute, please feel free to fork the repository and submit a pull request.
 
-## 📄 License
-
-[Add your project license here, e.g., MIT, GPL, etc.]
-
-## 📞 Contact
-
-For any questions or suggestions, please contact the repository owner.
-
-*   **GitHub:** [ayoub21dev](https://github.com/ayoub21dev)
-*   **Project Link:** [https://github.com/ayoub21dev/ZenBladi-V2](https://github.com/ayoub21dev/ZenBladi-V2)
